@@ -1,0 +1,28 @@
+<mat-sidenav-container fullscreen>
+    <app-header></app-header> 
+    <form fxFlex="40%" fxLayout="column" fxFlexOffset="30%" (ngSubmit)="signUp(f.value)" #f="ngForm">
+      <mat-form-field>
+      <input matInput ngModel name="org" id="org" type="text" placeholder="Organisation/Institute Name" required>
+      </mat-form-field>
+      <br>
+      <mat-form-field>
+      <input matInput ngModel name="name" id="name" type="text" placeholder="Your Full Name" required>
+      </mat-form-field>
+      <br>
+      <mat-form-field>
+      <input matInput ngModel name="email" id="email" type="email" placeholder="Email ID" required>
+      </mat-form-field>
+      <br>
+      <mat-form-field>
+      <input matInput ngModel name="password" id="password" type="password" placeholder="Set Password" required>
+      </mat-form-field>
+      <br>
+      <mat-form-field>
+      <input matInput ngModel name="cnfrmpass" id="cnfrmpass" type="password" placeholder="Confirm The Password" required>
+      </mat-form-field>
+      <br>
+      <button  mat-stroked-button color="primary">
+        Submit
+      </button>
+    </form>	
+</mat-sidenav-container>

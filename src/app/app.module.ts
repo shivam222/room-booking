@@ -15,6 +15,7 @@ import { HowitworksComponent } from './howitworks/howitworks.component';
 import { HeaderComponent } from './header/header.component';
 import { SignupComponent } from './signup/signup.component';
 import { CreateAccountService } from './services/create-account.service';
+import { SignupService } from './services/signup.service';
 import { OrgRegisterComponent } from './org-register/org-register.component';
 
 @NgModule({
@@ -38,7 +39,8 @@ import { OrgRegisterComponent } from './org-register/org-register.component';
     HttpModule
   ],
   providers: [
-    CreateAccountService
+    CreateAccountService,
+    SignupService
   ],
   bootstrap: [AppComponent]
 })

@@ -5,6 +5,7 @@ const app= express();
 const path= require('path');
 
 const orgRegister= require('./server/routes/orgRegister');
+const userRegister= require('./server/routes/userRegister');
 
 app.use(bodyParser.json());
 
@@ -13,6 +14,7 @@ app.use(express.static(path.join(__dirname,'dist/roomBooking')));
 mongoose.connect('mongodb://localhost:27017/roomBooking');
 
 app.use('/org-register',orgRegister);
+app.use('/sign-up',userRegister);
 
 app.get('*',(req,res)=>{
     res.sendFile(path.join(__dirname, 'dist/roomBooking/index.html'));

@@ -51,6 +51,36 @@ function sendMail(transporter, mailOptions, lmt, callback){
       });
 }
 
+function mailFunc(adminMail, userMail, userId){
+    const verificationUrl= `http://localhost:4600/sign-up/verify/${userId}`;
+    const transporter = nodemailer.createTransport({
+        host: 'smtp.gmail.com',
+        port: '587',
+        auth: {
+            user: 'shivamez234@gmail.com',
+            pass: process.env.VERIFICATIONLINKPASS
+        },
+        secureConnection: 'false',
+        tls: {
+            ciphers: 'SSLv3'
+        }
+        });
+        const mailOptions = {
+        from: 'shivamez234@gmail.com',
+        to: adminMail,
+        subject: 'Verify User in your room booking system',
+        text: `user ${userMail} wants to join. verify by clicking- ${verificationUrl}`
+        };
+        let lmt= 0;//This is number of times we will try to send email on failure
+        sendMail(transporter, mailOptions, lmt,function(err, info) {
+        if (err) {
+            res.send(err);
+            } else {
+            res.send('Email sent: ' + info.response);
+            }
+        });
+}
+
 const schema = Joi.object().keys({//Schema to validate coming request
     org: Joi.string().min(2).max(20).required(),
     name: Joi.string().min(3).max(50).required(),
@@ -72,7 +102,7 @@ router.post('/new', (req, res) => {
                 org: req.body.org,
                 name: req.body.name,
                 email: req.body.email,
-                role: 'admin',
+                role: 'booker',
                 password: req.body.password,
                 storeTime: newDate
             });
@@ -84,7 +114,7 @@ router.post('/new', (req, res) => {
                 if (err) {
                     res.send("error " + err);
                 } else {
-                    if (orgData.length == 0) {
+                    if (orgData.length != 0) {
                         User.find({   ////check if this emailId already exists
                             'email': newUser.email
                         }, function (err, emailData) {
@@ -102,36 +132,20 @@ router.post('/new', (req, res) => {
                                             res.send("Unable to save data(This could be either a technical issue or format of data sent by you was wrong)");
                                         }
                                         else{
-                                            res.write("Success.Just go to your email and verify your account");
-                                            res.end();
-                                            //logic create link and send the email
-                                            const verificationUrl= `http://localhost:4600/org-register/verify/${newUser._id}`;
-                                            const transporter = nodemailer.createTransport({
-                                                host: 'smtp.gmail.com',
-                                                port: '587',
-                                                auth: {
-                                                  user: 'shivamez234@gmail.com',
-                                                  pass: process.env.VERIFICATIONLINKPASS
-                                                },
-                                                secureConnection: 'false',
-                                                tls: {
-                                                    ciphers: 'SSLv3'
+                                            res.send("Success.We have sent email to all admins of this org once approved you will be able to login");
+                                            User.find({
+                                                'org': newUser.org,
+                                                'role': 'admin'
+                                            },function(err, adminData){
+                                                if(err){
+                                                    res.send("error " + err);
                                                 }
-                                              });
-                                              const mailOptions = {
-                                                from: 'shivamez234@gmail.com',
-                                                to: newUser.email,
-                                                subject: 'Verify Account For Room Booking System',
-                                                text: `click on link- ${verificationUrl}`
-                                              };
-                                              let lmt= 0;//This is number of times we will try to send email on failure
-                                              sendMail(transporter, mailOptions, lmt,function(err, info) {
-                                                if (err) {
-                                                    res.send(err);
-                                                  } else {
-                                                    res.send('Email sent: ' + info.response);
-                                                  }
-                                              });
+                                                else{
+                                                    adminData.forEach(function(admin){
+                                                      mailFunc(admin.email, newUser.email, newUser._id);
+                                                    });
+                                                }
+                                            })
                                         }
                                     })
                                 }
@@ -145,7 +159,7 @@ router.post('/new', (req, res) => {
                         });
                     }
                     else {
-                        res.send("org already exists, either register your org with different name or join this org");
+                        res.send("this org does not exist");
                     }
                 }
             });
@@ -164,7 +178,7 @@ router.get('/verify/:randNum', (req, res) => {
        }
        else{
           if(userData.length == 0) {
-             res.send("oops.you would have to register again.the link is no more valid");
+             res.send("oops.the link is not valid");
           }
           else {
              userOrg= userData[0].org;
@@ -178,8 +192,8 @@ router.get('/verify/:randNum', (req, res) => {
                     res.send("Something Wrong:( Please open the link again2");
                 }
                 else{
-                    if(orgData.length != 0) {
-                        res.send("oops.this org is now taken.try again with diff org name");
+                    if(orgData.length == 0) {
+                        res.send("oops.your org does not exist");
                      }
                      else{
                         User.find({
@@ -190,14 +204,14 @@ router.get('/verify/:randNum', (req, res) => {
                              }
                              else {
                               if(userEmailInfo.length != 0){
-                                  res.send(`oops your email is already registered in org ${userEmailInfo[0].org}`);
+                                  res.send(`oops this email is already registered in org ${userEmailInfo[0].org}`);
                               }
                               else{
                                 let newUser = new User({
                                     org: userOrg,
                                     name: userName,
                                     email: userEmail,
-                                    role: 'admin',
+                                    role: 'booker',
                                     password: userPassword
                                 });
                                 newUser.save(function(err){
@@ -209,27 +223,36 @@ router.get('/verify/:randNum', (req, res) => {
                                             if(err){
                                                res.send("unable to delete user from pending user but continuing anyway");
                                             }
-                                            let newOrg = new Org({
-                                                name: userOrg,
-                                                user_count: 1,
-                                                room_count: 0,
-                                                room_names: []
-                                            });
-                                            newOrg.save(function(err){//save the org in org db
-                                               if(err){   //delete the admin as well
-                                                User.remove({email: userEmail}, function(err){
-                                                   if(err){
-                                                      res.send("unable to delete the admin(in this situation there is admin but no org)");
-                                                   }
-                                                   else{
-                                                       res.send("You would have to register again.Sorry:(");
-                                                   }
-                                                });                                              
-                                               }
-                                               else{
-                                                res.send("org registered successfully");                                         
-                                               }
-                                           })
+                                            else {
+                                                //success
+                                                //send mail to user that he is registered
+                                                const transporter = nodemailer.createTransport({
+                                                    host: 'smtp.gmail.com',
+                                                    port: '587',
+                                                    auth: {
+                                                        user: 'shivamez234@gmail.com',
+                                                        pass: process.env.VERIFICATIONLINKPASS
+                                                    },
+                                                    secureConnection: 'false',
+                                                    tls: {
+                                                        ciphers: 'SSLv3'
+                                                    }
+                                                    });
+                                                    const mailOptions = {
+                                                    from: 'shivamez234@gmail.com',
+                                                    to: userEmail,
+                                                    subject: 'Regsitered with us successfully',
+                                                    text: `Hi you are now a part of ${userOrg} booking system`
+                                                    };
+                                                    let lmt= 0;//This is number of times we will try to send email on failure
+                                                    sendMail(transporter, mailOptions, lmt,function(err, info) {
+                                                    if (err) {
+                                                        res.send(err);
+                                                        } else {
+                                                        res.send('Email sent: ' + info.response);
+                                                        }
+                                                    });                                              
+                                            }
                                          });
                                     }
                                 })

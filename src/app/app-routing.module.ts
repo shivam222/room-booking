@@ -8,7 +8,7 @@ import { OrgRegisterComponent } from './org-register/org-register.component';
 const routes: Routes = [
    { path: '', component: HomeComponent},
    { path: 'org-register', component: OrgRegisterComponent},
-  // { path: 'signin', component: SigninComponent},
+   { path: 'sign-up', component: SignupComponent}
 ];
 
 @NgModule({

@@ -1,4 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
+import { SignupService } from '../services/signup.service';
+import { UserStructure } from '../models/userStructure';
 
 @Component({
   selector: 'app-signup',
@@ -7,7 +9,13 @@ import { Component, OnInit } from '@angular/core';
 })
 export class SignupComponent {
 
-  constructor() { }
+  constructor(private signupObj: SignupService) { }
 
+  signUp(newUserData: UserStructure) {
+    this.signupObj.signup(newUserData)
+    .subscribe(res => {
+      console.log(res);
+    });
+}
 
 }
