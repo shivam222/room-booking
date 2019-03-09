@@ -5,9 +5,8 @@ import {MaterialModule} from './material.module';
 import {AppRoutingModule} from './app-routing.module';
 import {FlexLayoutModule} from '@angular/flex-layout';
 import {FormsModule} from '@angular/forms';
-import {CustomFormsModule} from 'ng2-validation';
+import {ReactiveFormsModule} from '@angular/forms';
 import { HttpModule } from '@angular/http';
-
 import { AppComponent } from './app.component';
 import { HomeComponent } from './home/home.component';
 import { WhatitisComponent } from './whatitis/whatitis.component';
@@ -16,6 +15,7 @@ import { HeaderComponent } from './header/header.component';
 import { SignupComponent } from './signup/signup.component';
 import { CreateAccountService } from './services/create-account.service';
 import { SignupService } from './services/signup.service';
+import { BasicApisService } from './services/basic-apis.service';
 import { OrgRegisterComponent } from './org-register/org-register.component';
 
 @NgModule({
@@ -35,12 +35,13 @@ import { OrgRegisterComponent } from './org-register/org-register.component';
     AppRoutingModule,
     FlexLayoutModule,
     FormsModule,
-    CustomFormsModule,
+    ReactiveFormsModule,
     HttpModule
   ],
   providers: [
     CreateAccountService,
-    SignupService
+    SignupService,
+    BasicApisService
   ],
   bootstrap: [AppComponent]
 })

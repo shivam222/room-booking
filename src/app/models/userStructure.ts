@@ -1,5 +1,7 @@
 export interface UserStructure {
+ org: string;
  name: string;
  email: string;
- isAdmin: boolean;
+ password: string;
+ cnfrmpass: string;
 }
