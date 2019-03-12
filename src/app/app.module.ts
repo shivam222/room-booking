@@ -16,7 +16,9 @@ import { SignupComponent } from './signup/signup.component';
 import { CreateAccountService } from './services/create-account.service';
 import { SignupService } from './services/signup.service';
 import { BasicApisService } from './services/basic-apis.service';
+import { LoginService } from './services/login.service';
 import { OrgRegisterComponent } from './org-register/org-register.component';
+import { LoginComponent } from './login/login.component';
 
 @NgModule({
   declarations: [
@@ -26,7 +28,8 @@ import { OrgRegisterComponent } from './org-register/org-register.component';
     HowitworksComponent,
     HeaderComponent,
     SignupComponent,
-    OrgRegisterComponent
+    OrgRegisterComponent,
+    LoginComponent
   ],
   imports: [
     BrowserModule,
@@ -41,7 +44,8 @@ import { OrgRegisterComponent } from './org-register/org-register.component';
   providers: [
     CreateAccountService,
     SignupService,
-    BasicApisService
+    BasicApisService,
+    LoginService
   ],
   bootstrap: [AppComponent]
 })

@@ -1,27 +1,53 @@
 <mat-sidenav-container fullscreen>
     <app-header></app-header> 
-    <form fxFlex="40%" fxLayout="column" fxFlexOffset="30%" (ngSubmit)="signUp(f.value)" #f="ngForm">
+    <form fxFlex="40%" fxLayout="column" fxFlexOffset="30%" [formGroup]="myForm" (ngSubmit)="signUp()">
       <mat-form-field>
-      <input matInput ngModel name="org" id="org" type="text" placeholder="Organisation/Institute Name" required>
+      <input matInput name="org" id="org" type="text" placeholder="Organisation/Institute Name" formControlName="org">
+      <div *ngIf="myForm.get('org').touched && myForm.get('org').errors">
+        <mat-error class="error-message">Organisation name should have at least 2 characters</mat-error>
+      </div>       
       </mat-form-field>
       <br>
       <mat-form-field>
-      <input matInput ngModel name="name" id="name" type="text" placeholder="Your Full Name" required>
+      <input matInput name="name" id="name" type="text" placeholder="Your Full Name" formControlName="name">
+      <div *ngIf="myForm.get('name').touched && myForm.get('name').errors">
+      <mat-error class="error-message">
+        Name should at least have 3 characters
+      </mat-error>
+      </div> 
       </mat-form-field>
       <br>
       <mat-form-field>
-      <input matInput ngModel name="email" id="email" type="email" placeholder="Email ID" required>
+      <input matInput name="email" id="email" type="email" placeholder="Email ID" formControlName="email">
+      <div *ngIf="myForm.get('email').touched && myForm.get('email').errors">
+      <mat-error *ngIf="myForm.get('email').errors.emailTaken;else secErr" class="error-message">
+        This email is already registered with us
+      </mat-error>
+      <ng-template #secErr>
+        <mat-error class="error-message">Invalid email</mat-error>
+      </ng-template>
+      </div>      
       </mat-form-field>
       <br>
       <mat-form-field>
-      <input matInput ngModel name="password" id="password" type="password" placeholder="Set Password" required>
+      <input matInput name="password" id="password" type="password" placeholder="Set Password" formControlName="password">
+      <div *ngIf="myForm.get('password').touched && myForm.get('password').errors">
+      <mat-error class="error-message">
+        Too short
+      </mat-error>
+      </div>     
       </mat-form-field>
       <br>
       <mat-form-field>
-      <input matInput ngModel name="cnfrmpass" id="cnfrmpass" type="password" placeholder="Confirm The Password" required>
+      <input matInput name="cnfrmpass" id="cnfrmpass" type="password" placeholder="Confirm The Password" formControlName="cnfrmpass">
+      <div *ngIf="myForm.get('cnfrmpass').touched && myForm.get('cnfrmpass').errors">
+      <mat-error class="error-message">
+        Should be same as password
+      </mat-error>
+      </div> 
       </mat-form-field>
       <br>
-      <button  mat-stroked-button color="primary">
+      <button  mat-stroked-button color="primary" [disabled]="myForm.invalid || myForm.pending">
         Submit
       </button>
     </form>	

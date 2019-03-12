@@ -9,15 +9,15 @@ import { map } from 'rxjs/operators';
     providedIn: 'root'
   })
 
-export class OrgValid {
-    constructor(private orgApi: BasicApisService) {}
-    orgValidator(): AsyncValidatorFn {
+export class EmailValid {
+    constructor(private emailApi: BasicApisService) {}
+    emailValidator(): AsyncValidatorFn {
         return (control: AbstractControl): Observable<{ [key: string]: any } | null> => {
-          return this.orgApi.doesOrgExists(control.value)
+          return this.emailApi.doesEmailExists(control.value)
             .pipe(
               map(res => {
                 if (res === 'true') {
-                  return { 'orgTaken': true};
+                  return { 'emailTaken': true};
                 } else {
                     return null;
                 }

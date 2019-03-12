@@ -1,0 +1,29 @@
+<mat-sidenav-container fullscreen>
+  <app-header></app-header> 
+  <form fxFlex="40%" fxLayout="column" fxFlexOffset="30%" [formGroup]="myForm" (ngSubmit)="logIn()">
+    <mat-form-field>
+    <input matInput name="email" id="email" type="email" placeholder="Email" formControlName="email">
+    <div *ngIf="myForm.get('email').touched && myForm.get('email').errors">
+    <mat-error *ngIf="myForm.get('email').errors.emailTaken;else secErr" class="error-message">
+      This email is not registered with us
+    </mat-error>
+    <ng-template #secErr>
+      <mat-error class="error-message">Invalid email</mat-error>
+    </ng-template>
+    </div>      
+    </mat-form-field>
+    <br>
+    <mat-form-field>
+    <input matInput name="password" id="password" type="password" placeholder="Password" formControlName="password">
+    <div *ngIf="myForm.get('password').touched && myForm.get('password').errors">
+    <mat-error class="error-message">
+      Password is required
+    </mat-error>
+    </div>     
+    </mat-form-field>
+    <br>
+    <button  mat-stroked-button color="primary" [disabled]="myForm.invalid || myForm.pending">
+      Submit
+    </button>
+  </form>	
+</mat-sidenav-container>

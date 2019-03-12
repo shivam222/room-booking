@@ -73,7 +73,7 @@ router.post('/new', (req, res) => {
                 name: req.body.name,
                 email: req.body.email,
                 role: 'admin',
-                password: req.body.password,
+                password: {salt:'', passwordHash:''},
                 storeTime: newDate
             });
             newUser.org = newUser.org.toLowerCase();
@@ -94,7 +94,7 @@ router.post('/new', (req, res) => {
                             else {
                                 if (emailData.length == 0) {
                                     //Salt Hash The Password
-                                    const password = createSaltHashedPassword(newUser.password);
+                                    const password = createSaltHashedPassword(req.body.password);
                                     newUser.password = password;
                                     //save to db
                                     newUser.save(function(err) {

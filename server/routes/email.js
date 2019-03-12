@@ -1,17 +1,17 @@
 const express = require('express');
-const Org = require('../../models/orgStructure');
+const User = require('../../models/userStructure');
 
 const router = express.Router();
 
-router.get('/exist/:org', (req, res) => {
-  const org= req.params.org;
-  Org.find({
-    'name': org   //check if this org already exists
-}, function (err, orgData) {
+router.get('/exist/:email', (req, res) => {
+  const email= req.params.email;
+  User.find({
+    'email': email   //check if this email already exists
+}, function (err, emailData) {
     if (err) {
         res.send("error " + err);
     } else {
-        if (orgData.length == 0) {
+        if (emailData.length == 0) {
           console.log("hi");
             res.send(false);
         }

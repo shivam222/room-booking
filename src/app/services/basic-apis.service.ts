@@ -13,7 +13,14 @@ export class BasicApisService {
   doesOrgExists(org: string) {
     const header = new Headers();
     header.append('Content-Type', 'application/json');
-    return this.http.get('http://localhost:4600/org/details/' + org, {headers: header})
+    return this.http.get('http://localhost:4600/org/exist/' + org, {headers: header})
+    .pipe(map(res => res.text()));
+  }
+
+  doesEmailExists(email: string) {
+    const header = new Headers();
+    header.append('Content-Type', 'application/json');
+    return this.http.get('http://localhost:4600/email/exist/' + email, {headers: header})
     .pipe(map(res => res.text()));
   }
 }
