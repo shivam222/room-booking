@@ -1,5 +1,17 @@
 <mat-sidenav-container fullscreen>
     <app-header></app-header> 
+    <div class="commonMsg" fxFlex="40%" fxLayout="column" fxFlexOffset="30%">
+      <div *ngIf="resStatus === 200; else errBlock">
+        <div class="successMsg">
+        {{resMessage}}
+        </div>
+      </div>
+      <ng-template #errBlock>
+        <div class="errorMsg" *ngIf="resStatus === 400 || resStatus === 500">
+        {{resMessage}}
+        </div>
+      </ng-template>
+    </div>
     <form fxFlex="40%" fxLayout="column" fxFlexOffset="30%" [formGroup]="myForm" (ngSubmit)="signUp()">
       <mat-form-field>
       <input matInput name="org" id="org" type="text" placeholder="Organisation/Institute Name" formControlName="org">
@@ -46,6 +58,8 @@
       </mat-error>
       </div> 
       </mat-form-field>
+      <br>
+      <img *ngIf="showLoader" width="50px" src ="./assets/images/loader.gif" class="loader"/>
       <br>
       <button  mat-stroked-button color="primary" [disabled]="myForm.invalid || myForm.pending">
         Submit

@@ -12,11 +12,9 @@ router.get('/exist/:email', (req, res) => {
         res.send("error " + err);
     } else {
         if (emailData.length == 0) {
-          console.log("hi");
             res.send(false);
         }
         else {
-          console.log("hi2");
             res.send(true);
         }
     }

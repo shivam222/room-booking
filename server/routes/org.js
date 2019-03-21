@@ -12,11 +12,9 @@ router.get('/exist/:org', (req, res) => {
         res.send("error " + err);
     } else {
         if (orgData.length == 0) {
-          console.log("hi");
             res.send(false);
         }
         else {
-          console.log("hi2");
             res.send(true);
         }
     }

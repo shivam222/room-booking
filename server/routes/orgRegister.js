@@ -32,20 +32,16 @@ function createSaltHashedPassword(userPass) {
 function sendMail(transporter, mailOptions, lmt, callback){
     transporter.sendMail(mailOptions, function(error, info){
         if (error) {
-          console.log(error);
           if(lmt <= 5){
-          console.log("Trying Again");
           setTimeout(function(){
           sendMail(transporter, mailOptions, lmt+1, callback);
           },
           5000);
           }
            else{
-              console.log("Unable to send the email");
               callback(error, info);
            }
         } else {
-          console.log('Email sent: ' + info.response);
           callback(error, info);
         }
       });
@@ -62,7 +58,7 @@ const schema = Joi.object().keys({//Schema to validate coming request
 router.post('/new', (req, res) => {
     Joi.validate(req.body, schema, function (err, val) {//validate the request against defined schema
         if (err) {
-            res.send(err.details[0].message);
+            res.status(400).json({msg: err.details[0].message});
         }
         else {
             let newDate = new Date();
@@ -82,14 +78,14 @@ router.post('/new', (req, res) => {
                 'name': newUser.org   //check if this org already exists
             }, function (err, orgData) {
                 if (err) {
-                    res.send("error " + err);
+                    res.status(500).json({msg: "Error while looking if org already exist"});
                 } else {
                     if (orgData.length == 0) {
                         User.find({   ////check if this emailId already exists
                             'email': newUser.email
                         }, function (err, emailData) {
                             if (err) {
-                                res.send("error " + err);
+                                res.status(500).json({msg: "Error while looking if email already exist"});
                             }
                             else {
                                 if (emailData.length == 0) {
@@ -99,18 +95,16 @@ router.post('/new', (req, res) => {
                                     //save to db
                                     newUser.save(function(err) {
                                         if(err){
-                                            res.send("Unable to save data(This could be either a technical issue or format of data sent by you was wrong)");
+                                            res.status(500).json({msg: "Unable to save data"});
                                         }
                                         else{
-                                            res.write("Success.Just go to your email and verify your account");
-                                            res.end();
                                             //logic create link and send the email
                                             const verificationUrl= `http://localhost:4600/org-register/verify/${newUser._id}`;
                                             const transporter = nodemailer.createTransport({
                                                 host: 'smtp.gmail.com',
                                                 port: '587',
                                                 auth: {
-                                                  user: 'shivamez234@gmail.com',
+                                                  user: 'shivamez234@gmail.com',//FIXME:
                                                   pass: process.env.VERIFICATIONLINKPASS
                                                 },
                                                 secureConnection: 'false',
@@ -127,9 +121,9 @@ router.post('/new', (req, res) => {
                                               let lmt= 0;//This is number of times we will try to send email on failure
                                               sendMail(transporter, mailOptions, lmt,function(err, info) {
                                                 if (err) {
-                                                    res.send(err);
+                                                    res.status(500).json({msg: "Error while sending email for verification.Try again!"});
                                                   } else {
-                                                    res.send('Email sent: ' + info.response);
+                                                    res.status(200).json({msg: 'Registered.A verification mail is sent to your emailid'});
                                                   }
                                               });
                                         }
@@ -137,15 +131,14 @@ router.post('/new', (req, res) => {
                                 }
                                 else {//this user already exists
                                    const userDetails= emailData[0];
-                                    res.write(`Hi there! Your email id is already registered with us in the org ${userDetails.org}`);
-                                    res.write(`You can delete your account by logging in and then try to register again`);
-                                    res.end();
+                                   res.status(400).json({msg: `Hi there! Your email id is already registered with us in the org ${userDetails.org}.
+                                   You can delete your account by logging in and then try to register again`});
                                 }
                             }
                         });
                     }
                     else {
-                        res.send("org already exists, either register your org with different name or join this org");
+                        res.status(400).json({msg: "org already exists, either register your org with different name or join this org"});
                     }
                 }
             });
@@ -208,7 +201,7 @@ router.get('/verify/:randNum', (req, res) => {
                                         pendingUser.remove({_id: randomNum}, function(err){
                                             if(err){
                                                res.send("unable to delete user from pending user but continuing anyway");
-                                            }
+                                            } else {
                                             let newOrg = new Org({
                                                 name: userOrg,
                                                 user_count: 1,
@@ -230,6 +223,7 @@ router.get('/verify/:randNum', (req, res) => {
                                                 res.send("org registered successfully");                                         
                                                }
                                            })
+                                          }
                                          });
                                     }
                                 })

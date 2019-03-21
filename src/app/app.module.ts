@@ -17,8 +17,14 @@ import { CreateAccountService } from './services/create-account.service';
 import { SignupService } from './services/signup.service';
 import { BasicApisService } from './services/basic-apis.service';
 import { LoginService } from './services/login.service';
+import { AuthguardService } from './services/authguard.service';
 import { OrgRegisterComponent } from './org-register/org-register.component';
 import { LoginComponent } from './login/login.component';
+import { ForgotPasswordComponent } from './forgot-password/forgot-password.component';
+import { ForgotPasswordService } from './services/forgot-password.service';
+import { DashboardComponent } from './dashboard/dashboard.component';
+import { ReverseAuthGuardService } from './services/reverse-auth-guard.service';
+import {MatDatepickerModule} from '@angular/material/datepicker';
 
 @NgModule({
   declarations: [
@@ -29,7 +35,9 @@ import { LoginComponent } from './login/login.component';
     HeaderComponent,
     SignupComponent,
     OrgRegisterComponent,
-    LoginComponent
+    LoginComponent,
+    ForgotPasswordComponent,
+    DashboardComponent
   ],
   imports: [
     BrowserModule,
@@ -45,7 +53,11 @@ import { LoginComponent } from './login/login.component';
     CreateAccountService,
     SignupService,
     BasicApisService,
-    LoginService
+    LoginService,
+    AuthguardService,
+    ForgotPasswordService,
+    ReverseAuthGuardService,
+    MatDatepickerModule
   ],
   bootstrap: [AppComponent]
 })

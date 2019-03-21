@@ -13,18 +13,20 @@ function sha512(userPass, salt) {
 }
 
 router.post('/authenticate', (req, res) => {
-    const email= req.body.email.toLowerCase();;
+    const email= req.body.email.toLowerCase();
     User.find({
         'email': email   
     }, function (err, userData) {
         if (err) {
-            res.send("error " + err);
+            res.status(500).json({msg: 'Error while checking for email'});
         } else {
             if (userData.length == 0) {
-              console.log("hi");
-                res.send("this email is not registered yet");
+                res.status(400).json({msg: 'this email is not registered yet'});
             }
             else {
+                const userRole= userData[0].role;
+                const userName= userData[0].name;
+                const userOrg= userData[0].org;
                 const passHash= userData[0].password.passwordHash;
                 const passSalt= userData[0].password.salt;
                 const password= req.body.password;
@@ -33,15 +35,15 @@ router.post('/authenticate', (req, res) => {
                     const role= userData[0].role;
                     const payload = {
                         role: role,
-                        email: email 
+                        email: email
                     };
                     var token = jsonwebtoken.sign(payload, 'make me secret', {//FIXME: change the secret key
                         expiresIn: '1d' // expires in 24 hours
                     });
-                    res.send({ auth: true, token: token });
+                    res.status(200).json({ msg:'success', auth: true, token: token, role:userRole, name:userName, email:email, org:userOrg });
                     
                 } else {
-                    res.send('incorrect password');
+                    res.status(400).json({msg: 'incorrect password'});
                 }
             }
         }

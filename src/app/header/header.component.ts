@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { BasicApisService } from '../services/basic-apis.service';
 
 @Component({
   selector: 'app-header',
@@ -6,10 +7,18 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./header.component.css']
 })
 export class HeaderComponent implements OnInit {
-
-  constructor() { }
+  isLogged: boolean;
+  constructor( private basicApi: BasicApisService) { }
 
   ngOnInit() {
+    this.isLogged = this.basicApi.isLoggedIn();
   }
 
+  logout() {
+    localStorage.removeItem('token');
+    localStorage.removeItem('userEmail');
+    localStorage.removeItem('userRole');
+    localStorage.removeItem('userName');
+    localStorage.removeItem('userOrg');
+  }
 }

@@ -14,6 +14,9 @@ export class SignupService {
     const header = new Headers();
     header.append('Content-Type', 'application/json');
     return this.http.post('http://localhost:4600/sign-up/new', newUserData, {headers: header})
-    .pipe(map(res => res.text()));
+    .pipe(map(res => {
+      return res.json();
+    })
+    );
   }
 }

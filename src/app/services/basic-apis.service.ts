@@ -1,5 +1,4 @@
 import { Injectable } from '@angular/core';
-import { UserStructure } from '../models/userStructure';
 import {Http, Headers} from '@angular/http';
 import { map } from 'rxjs/operators';
 
@@ -22,5 +21,13 @@ export class BasicApisService {
     header.append('Content-Type', 'application/json');
     return this.http.get('http://localhost:4600/email/exist/' + email, {headers: header})
     .pipe(map(res => res.text()));
+  }
+
+  isLoggedIn(): boolean {
+  if (localStorage.getItem('token') === null) {
+      return false;
+  } else {
+      return true;
+  }
   }
 }

@@ -1,7 +1,7 @@
 <mat-toolbar color="primary" class="header">
-    <img fxFlex="60px" fxFlexOffset="50%" src ="./assets/images/raw2.png" class="logo"/>
+    <img fxFlex="60px" fxFlexOffset="50%" src ="./assets/images/raw2.png" class="logo" routerLink="/"/>
 <span class="occupySpace"></span>
- <ul class="links">
+ <ul class="links" *ngIf="!isLogged;else otherLink">
     <li><a routerLink="/org-register">
     Register
     </a></li>
@@ -11,5 +11,15 @@
     <li><a routerLink="/log-in">
     Login
     </a></li>
- </ul> 
+ </ul>
+ <ng-template #otherLink>
+    <ul class="links">
+        <li><a (click)="logout()" routerLink="/log-in">
+         Logout
+        </a></li>
+        <li><a routerLink="/dashboard">
+         Dashboard
+        </a></li>
+    </ul>
+ </ng-template>
 </mat-toolbar>

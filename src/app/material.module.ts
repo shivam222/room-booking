@@ -10,7 +10,9 @@ import {
   MatGridListModule,
   MatCardModule,
   MatFormFieldModule,
-  MatInputModule
+  MatInputModule,
+  MatDatepickerModule,
+  MatNativeDateModule
 } from '@angular/material';
 
 
@@ -26,7 +28,9 @@ import {
     MatGridListModule,
     MatCardModule,
     MatFormFieldModule,
-    MatInputModule
+    MatInputModule,
+    MatDatepickerModule,
+    MatNativeDateModule
   ],
   exports: [
      MatBadgeModule,
@@ -39,7 +43,9 @@ import {
      MatGridListModule,
      MatCardModule,
      MatFormFieldModule,
-     MatInputModule
+     MatInputModule,
+     MatDatepickerModule,
+     MatNativeDateModule
   ]
 })
 
