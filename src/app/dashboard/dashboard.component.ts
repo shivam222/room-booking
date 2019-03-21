@@ -12,11 +12,7 @@ export class DashboardComponent implements OnInit {
   ngOnInit() {
     this.selectedDate = new Date();
   }
-  onSelect(event){
-    console.log(event);
+  onSelect(event) {
     this.selectedDate = event;
-  }
-  sample() {
-    console.log(this.selectedDate);
   }
 }
