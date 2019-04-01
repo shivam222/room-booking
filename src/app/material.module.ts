@@ -12,7 +12,10 @@ import {
   MatFormFieldModule,
   MatInputModule,
   MatDatepickerModule,
-  MatNativeDateModule
+  MatNativeDateModule,
+  MatDialogModule,
+  MatRadioModule,
+  MatDividerModule
 } from '@angular/material';
 
 
@@ -30,7 +33,10 @@ import {
     MatFormFieldModule,
     MatInputModule,
     MatDatepickerModule,
-    MatNativeDateModule
+    MatNativeDateModule,
+    MatDialogModule,
+    MatRadioModule,
+    MatDividerModule
   ],
   exports: [
      MatBadgeModule,
@@ -45,7 +51,10 @@ import {
      MatFormFieldModule,
      MatInputModule,
      MatDatepickerModule,
-     MatNativeDateModule
+     MatNativeDateModule,
+     MatDialogModule,
+     MatRadioModule,
+     MatDividerModule
   ]
 })
 

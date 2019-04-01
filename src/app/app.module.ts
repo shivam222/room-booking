@@ -6,6 +6,7 @@ import {AppRoutingModule} from './app-routing.module';
 import {FlexLayoutModule} from '@angular/flex-layout';
 import {FormsModule} from '@angular/forms';
 import {ReactiveFormsModule} from '@angular/forms';
+import {CustomFormsModule} from 'ng2-validation';
 import { HttpModule } from '@angular/http';
 import { AppComponent } from './app.component';
 import { HomeComponent } from './home/home.component';
@@ -24,7 +25,9 @@ import { ForgotPasswordComponent } from './forgot-password/forgot-password.compo
 import { ForgotPasswordService } from './services/forgot-password.service';
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { ReverseAuthGuardService } from './services/reverse-auth-guard.service';
-import {MatDatepickerModule} from '@angular/material/datepicker';
+import { MatDatepickerModule } from '@angular/material/datepicker';
+import { RoomsDialogComponent } from './dashboard/rooms-dialog/rooms-dialog.component';
+import { AddRoomComponent } from './dashboard/rooms-dialog/add-room/add-room.component';
 
 @NgModule({
   declarations: [
@@ -37,7 +40,9 @@ import {MatDatepickerModule} from '@angular/material/datepicker';
     OrgRegisterComponent,
     LoginComponent,
     ForgotPasswordComponent,
-    DashboardComponent
+    DashboardComponent,
+    RoomsDialogComponent,
+    AddRoomComponent
   ],
   imports: [
     BrowserModule,
@@ -47,6 +52,7 @@ import {MatDatepickerModule} from '@angular/material/datepicker';
     FlexLayoutModule,
     FormsModule,
     ReactiveFormsModule,
+    CustomFormsModule,
     HttpModule
   ],
   providers: [
@@ -59,6 +65,7 @@ import {MatDatepickerModule} from '@angular/material/datepicker';
     ReverseAuthGuardService,
     MatDatepickerModule
   ],
-  bootstrap: [AppComponent]
+  bootstrap: [AppComponent],
+  entryComponents: [RoomsDialogComponent, AddRoomComponent]
 })
 export class AppModule { }

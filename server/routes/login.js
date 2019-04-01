@@ -13,7 +13,7 @@ function sha512(userPass, salt) {
 }
 
 router.post('/authenticate', (req, res) => {
-    const email= req.body.email.toLowerCase();
+    const email= req.body.email.toLowerCase().toLowerCase().trim();
     User.find({
         'email': email   
     }, function (err, userData) {
@@ -34,8 +34,7 @@ router.post('/authenticate', (req, res) => {
                 if(passHashObtained === passHash) {
                     const role= userData[0].role;
                     const payload = {
-                        role: role,
-                        email: email
+                        role: role
                     };
                     var token = jsonwebtoken.sign(payload, 'make me secret', {//FIXME: change the secret key
                         expiresIn: '1d' // expires in 24 hours

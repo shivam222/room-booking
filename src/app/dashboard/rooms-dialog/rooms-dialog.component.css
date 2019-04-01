@@ -1,0 +1,11 @@
+.mat-dialog-actions {
+    justify-content: flex-end;
+}
+
+.errorMsg{
+    text-align: center;
+    word-wrap:break-word;
+    margin: 10px 0px;
+    padding:12px;
+    background-color: #FFD2D2; 
+}

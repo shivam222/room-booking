@@ -20,5 +20,6 @@ export class HeaderComponent implements OnInit {
     localStorage.removeItem('userRole');
     localStorage.removeItem('userName');
     localStorage.removeItem('userOrg');
+    localStorage.removeItem('currentRoom');
   }
 }

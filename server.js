@@ -11,6 +11,7 @@ const org= require('./server/routes/org');
 const email= require('./server/routes/email');
 const login= require('./server/routes/login');
 const forgotPassword= require('./server/routes/forgotPassword');
+const rooms= require('./server/routes/rooms');
 
 app.use(cors());
 app.use(bodyParser.json());
@@ -25,6 +26,7 @@ app.use('/org',org);
 app.use('/email',email);
 app.use('/log-in',login);
 app.use('/forgot-password',forgotPassword);
+app.use('/rooms',rooms);
 
 app.get('*',(req,res)=>{
     res.sendFile(path.join(__dirname, 'dist/roomBooking/index.html'));

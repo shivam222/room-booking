@@ -72,8 +72,8 @@ router.post('/new', (req, res) => {
                 password: {salt:'', passwordHash:''},
                 storeTime: newDate
             });
-            newUser.org = newUser.org.toLowerCase();
-            newUser.email = newUser.email.toLowerCase();
+            newUser.org = newUser.org.toLowerCase().trim();
+            newUser.email = newUser.email.toLowerCase().trim();
             Org.find({
                 'name': newUser.org   //check if this org already exists
             }, function (err, orgData) {

@@ -58,7 +58,7 @@ router.post('/reset', (req, res) => {
     if (err) {
         res.status(400).json({msg: err.details[0].message});
     } else {
-    const email= req.body.email.toLowerCase();
+    const email= req.body.email.toLowerCase().trim();
     User.find({
         'email': email   
     }, function (err, userData) {

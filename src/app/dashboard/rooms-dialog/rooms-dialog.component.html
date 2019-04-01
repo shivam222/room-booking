@@ -1,0 +1,29 @@
+<h2 mat-dialog-title>Rooms</h2>
+<mat-dialog-content>
+  <p> Rooms List: </p>
+    <div *ngIf="resStatus !== 200; else listBlock">
+      <div class="errorMsg">
+      {{resMessage}}
+      </div>
+    </div>
+    <ng-template #listBlock>
+        <form #f="ngForm">
+            <label *ngFor="let roomItem of allRooms">
+                <input type="radio" ngModel name="room" [value]="roomItem.id"> 
+                {{ roomItem.name }}<br>
+              </label>
+              <br>
+              <mat-divider></mat-divider> 
+              <br>
+            <button mat-stroked-button [mat-dialog-close]="f.value.room" color="primary">OK</button>
+        </form>
+    </ng-template>
+    <br>
+</mat-dialog-content>
+<mat-dialog-actions>
+<div>
+    <button  mat-mini-fab color="primary" (click)="openDialog()">
+        +
+    </button>
+</div>
+</mat-dialog-actions>
