@@ -12,13 +12,15 @@ import { timer } from 'rxjs';
   styleUrls: ['./dashboard.component.css']
 })
 export class DashboardComponent implements OnInit {
-  selectedDate: Date;
+  selectedDate: any;
   selectedRoom: string;
   resMessage: string;
   resStatus: number;
   showLoader: boolean;
   allRooms: AllRoomRes[];
   selectedRoomDetails: SingleRoom;
+  selectedRoomName: string;
+  selectedRoomDateBooking: any; // FIXME: strict type check
   constructor(private dialog: MatDialog, private basicApi: BasicApisService) { }
 
   ngOnInit() {
@@ -30,7 +32,6 @@ export class DashboardComponent implements OnInit {
       this.showLoader = false;
       this.resStatus = 200;
       this.allRooms = res.msg.rooms;
-      console.log(this.allRooms);
       if (localStorage.getItem('currentRoom')) {
         this.selectedRoom = localStorage.getItem('currentRoom');
         this.getRoomDetails();
@@ -49,7 +50,12 @@ export class DashboardComponent implements OnInit {
   }
 
   onSelect(event) {
-    this.selectedDate = event;
+    this.selectedDate = new Date(event);
+  }
+
+  toIso(sampleDate) {
+     sampleDate.setHours(0, -sampleDate.getTimezoneOffset(), 0, 0);
+     this.selectedDate = sampleDate.toISOString();
   }
 
   openDialog(): void {
@@ -57,7 +63,6 @@ export class DashboardComponent implements OnInit {
       width: '600px'
     });
     dialogRef.afterClosed().subscribe(result => {
-      console.log('The dialog was closed');
       if (result !== '' && result !== undefined && result !== null) {
          this.selectedRoom = result;
          this.getRoomDetails();
@@ -68,15 +73,28 @@ export class DashboardComponent implements OnInit {
 
   getRoomDetails() {
     const self = this;
-    this.allRooms.forEach(function(item, index) {
+    this.allRooms.forEach(function(item) {
       if (item.id === self.selectedRoom) {
-        console.log(item);
+        console.log(item.bookings);
+        console.log(item.name);
+        self.toIso(new Date(self.selectedDate));
+        console.log(self.selectedDate);
+        self.selectedDate = self.selectedDate.substring(0, 10);
+        self.selectedRoomName = item.name;
+        self.selectedRoomDateBooking = item.bookings[self.selectedDate];
         self.selectedRoomDetails = item;
       }
     });
   }
 
   newBooking(value) {
-    console.log(value);
+    this.basicApi.newBooking(this.selectedRoom, this.selectedDate, value,
+    localStorage.getItem('userOrg'), localStorage.getItem('token'),
+    localStorage.getItem('userName'))
+    .subscribe(res => {
+
+    }, err => {
+
+    });
   }
 }

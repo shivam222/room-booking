@@ -14,8 +14,22 @@
   <mat-datepicker touchUi #picker></mat-datepicker>
 </mat-form-field>
 <mat-card  fxFlex="100%" fxLayout="row">
-  Your Bookings of the day -
-  {{selectedRoom}}
+  <br>
+  <table>
+      <tr>
+      <th>From</th>
+      <th>To</th>
+      <th>Posted By</th>
+      <th>Edit|Delete</th>
+      </tr>
+      <tr *ngFor="let booking of selectedRoomDateBooking">
+      <td>{{booking?.from}}</td>
+      <td>{{booking?.to}}</td>
+      <td>{{booking?.by}}</td>
+      <td></td>
+      </tr>
+      </table>
+      <br>
 </mat-card>
 </div>
 
@@ -26,7 +40,21 @@
 </mat-card>
 <mat-card fxFlexOffset="10%" fxFlex="65%" fxLayout="column">
   Your Bookings of the day -
-
+  <br>
+  <table>
+  <tr>
+  <th>From</th>
+  <th>To</th>
+  <th>Posted By</th>
+  <th>Edit|Delete</th>
+  </tr>
+  <tr *ngFor="let booking of selectedRoomDateBooking">
+  <td>{{booking?.from}}</td>
+  <td>{{booking?.to}}</td>
+  <td>{{booking?.by}}</td>
+  <td></td>
+  </tr>
+  </table>
  <br>
   New Booking -
   <form #f="ngForm" (ngSubmit)="newBooking(f.value)">
@@ -40,7 +68,7 @@
     </mat-form-field>
     &nbsp;
     <mat-form-field>
-    <textarea matInput #desRef="ngModel" [(ngModel)]="des" name="des" id="des" placeholder="Description" class="form-control" required></textarea>
+    <textarea matInput #desRef="ngModel" [(ngModel)]="des" name="des" id="des" placeholder="Description" class="form-control"></textarea>
     </mat-form-field>
     </div>
     <button mat-stroked-button color="accent"  [disabled]="!f.valid">Create</button>

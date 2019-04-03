@@ -58,6 +58,50 @@ router.post('/new', (req, res) => {
     }
 });
 
+router.put('/booking/:id', (req, res) => {
+    console.log(req.body);
+    const token =  req.headers.authorization.split(' ');
+    let decoded;
+    try {
+         decoded = jsonwebtoken.verify(token[1], 'make me secret');//FIXME:
+    } catch (e) {
+         res.status(400).json({msg: 'unauthorized'});
+    }
+    if(decoded.role !== 'looker') {
+        const roomId= req.params.id;
+        const date = req.body.date.substring(0, 10);
+        Room.find({'_id': roomId}, function(err, roomData) {
+             let newRoomData = roomData[0];
+             console.log(newRoomData);
+             const bookingData = [{
+                'from': req.body.from,
+                'to': req.body.to,
+                'description': req.body.des,
+                'by': req.body.name
+             }];
+             if(newRoomData.bookings) {
+               if(newRoomData.bookings.hasOwnProperty(date)) {
+                   console.log('11111111111');
+                  newRoomData.bookings[date].push(bookingData[0]);
+               } else {
+                console.log('2222222222222');
+                   newRoomData.bookings[date] = bookingData;
+               }
+             } else{
+                console.log(newRoomData.bookings);
+                 newRoomData.bookings = {
+                     [date]: bookingData
+                 };
+             }
+             Room.update({'_id': roomId}, newRoomData, function(err) {
+                console.log('updated');
+           });
+        });
+    } else {
+        return res.status(400).json({msg: 'unauthorized'});
+    }
+});
+
 router.get('/all/:org', (req, res) => {
     const org= req.params.org;
     const token =  req.headers.authorization.split(' ');

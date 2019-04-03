@@ -53,4 +53,23 @@ export class BasicApisService {
     })
     );
   }
+
+  newBooking(roomId, date, data, org, token, name) {
+    const bookData = {
+      org,
+      name,
+      date,
+      from: data.from,
+      to: data.to,
+      des: data.des
+     };
+     const header = new Headers();
+     header.append('Content-Type', 'application/json');
+     header.append('Authorization', 'Bearer ' + token);
+     return this.http.put('http://localhost:4600/rooms/booking/' + roomId, bookData, {headers: header})
+     .pipe(map(res => {
+       return res.json();
+     })
+     );
+  }
 }
