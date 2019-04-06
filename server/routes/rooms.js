@@ -2,6 +2,7 @@ const express = require('express');
 const jsonwebtoken = require('jsonwebtoken');
 const Org = require('../../models/orgStructure');
 const Room = require('../../models/roomStructure');
+const bookingCheck = require('../lib/bookingCheck');
 
 const router = express.Router();
 
@@ -59,9 +60,8 @@ router.post('/new', (req, res) => {
 });
 
 router.put('/booking/:id', (req, res) => {
-    console.log(req.body);
     const token =  req.headers.authorization.split(' ');
-    let decoded;
+    let decoded, validated = true;
     try {
          decoded = jsonwebtoken.verify(token[1], 'make me secret');//FIXME:
     } catch (e) {
@@ -72,7 +72,6 @@ router.put('/booking/:id', (req, res) => {
         const date = req.body.date.substring(0, 10);
         Room.find({'_id': roomId}, function(err, roomData) {
              let newRoomData = roomData[0];
-             console.log(newRoomData);
              const bookingData = [{
                 'from': req.body.from,
                 'to': req.body.to,
@@ -81,21 +80,27 @@ router.put('/booking/:id', (req, res) => {
              }];
              if(newRoomData.bookings) {
                if(newRoomData.bookings.hasOwnProperty(date)) {
-                   console.log('11111111111');
-                  newRoomData.bookings[date].push(bookingData[0]);
+                  // validation for available slot
+                  if(bookingCheck.isAvailable(newRoomData.bookings[date], bookingData[0].from, bookingData[0].to)) {
+                    newRoomData.bookings[date].push(bookingData[0]);
+                   } else {
+                       validated = false;
+                   }            
                } else {
-                console.log('2222222222222');
                    newRoomData.bookings[date] = bookingData;
                }
              } else{
-                console.log(newRoomData.bookings);
                  newRoomData.bookings = {
                      [date]: bookingData
                  };
              }
-             Room.update({'_id': roomId}, newRoomData, function(err) {
-                console.log('updated');
-           });
+             if(validated) {
+                Room.update({'_id': roomId}, newRoomData, function(err) {
+                    res.status(200).json({msg: 'updated'});
+               });
+             } else {
+                res.status(400).json({msg: 'Invalid time slot'});
+             }
         });
     } else {
         return res.status(400).json({msg: 'unauthorized'});

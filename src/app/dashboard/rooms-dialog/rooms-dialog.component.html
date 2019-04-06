@@ -1,6 +1,7 @@
 <h2 mat-dialog-title>Rooms</h2>
 <mat-dialog-content>
   <p> Rooms List: </p>
+  <img *ngIf="showLoader" width="50px" src ="./assets/images/loader.gif" class="loader"/>
     <div *ngIf="resStatus !== 200; else listBlock">
       <div class="errorMsg">
       {{resMessage}}
