@@ -26,6 +26,8 @@ export class DashboardComponent implements OnInit, OnDestroy  {
   constructor(private dialog: MatDialog, private basicApi: BasicApisService) { }
   private subscription1: Subscription;
   private subscription2: Subscription;
+  private subscription3: Subscription;
+
   ngOnInit() {
     this.showLoader = true;
     if (localStorage.getItem('currentDate')) {
@@ -33,34 +35,18 @@ export class DashboardComponent implements OnInit, OnDestroy  {
     } else {
       this.selectedDate = new Date();
     }
-    this.subscription1 = timer(0, 15000)
-    .subscribe( val => {
-    this.subscription2 = this.basicApi.getAllRooms(localStorage.getItem('token'), localStorage.getItem('userOrg'))
-    .subscribe(res => {
-      this.showLoader = false;
-      this.resStatus = 200;
-      this.allRooms = res.msg.rooms;
-      localStorage.setItem('currentDate', this.selectedDate);
-      if (localStorage.getItem('currentRoom')) {
-        this.selectedRoom = localStorage.getItem('currentRoom');
-        this.getRoomDetails();
-      } else {
-        this.selectedRoom = this.allRooms[0].id;
-        this.getRoomDetails();
-        localStorage.setItem('currentRoom', this.selectedRoom);
-      }
-    }, err => {
-      this.showLoader = false;
-      const body = JSON.parse(err._body);
-      this.resMessage = body.msg;
-      this.resStatus = err.status;
-    });
-  });
+    this.getBookingTimer();
   }
 
   onSelect(event) {
     this.selectedDate = new Date(event);
     localStorage.setItem('currentDate', this.selectedDate);
+    this.getRoomDetails();
+  }
+
+  onSelectSmall() {
+    localStorage.setItem('currentDate', this.selectedDate);
+    this.getRoomDetails();
   }
 
   toIso(sampleDate) {
@@ -104,6 +90,7 @@ export class DashboardComponent implements OnInit, OnDestroy  {
     localStorage.getItem('userOrg'), localStorage.getItem('token'),
     localStorage.getItem('userName'))
     .subscribe(res => {
+        this.getBooking();
         this.showLoader2 = false;
         swal(res.msg);
     }, err => {
@@ -113,8 +100,47 @@ export class DashboardComponent implements OnInit, OnDestroy  {
     });
   }
 
+  getBookingTimer(): any {
+    this.subscription1 = timer(0, 15000)
+    .subscribe( val => {
+    this.getBooking();
+  });
+  }
+
+  getBooking(): any {
+    this.subscription2 = this.basicApi.getAllRooms(localStorage.getItem('token'), localStorage.getItem('userOrg'))
+    .subscribe(res => {
+      this.showLoader = false;
+      this.resStatus = 200;
+      this.allRooms = res.msg.rooms;
+      if (localStorage.getItem('currentRoom')) {
+        this.selectedRoom = localStorage.getItem('currentRoom');
+        this.getRoomDetails();
+      } else {
+        this.selectedRoom = this.allRooms[0].id;
+        this.getRoomDetails();
+        localStorage.setItem('currentRoom', this.selectedRoom);
+      }
+    }, err => {
+      this.showLoader = false;
+      const body = JSON.parse(err._body);
+      this.resMessage = body.msg;
+      this.resStatus = err.status;
+    });
+  }
+
+  deleteBooking(bookingData) {
+    this.subscription3 = this.basicApi.deleteRoomBooking(this.selectedRoom, this.selectedDate, bookingData, localStorage.getItem('token'))
+    .subscribe(res => {
+      this.getBooking();
+    }, err => {
+
+    });
+  }
+
   ngOnDestroy() {
     this.subscription1.unsubscribe();
     this.subscription2.unsubscribe();
+    this.subscription3.unsubscribe();
   }
 }

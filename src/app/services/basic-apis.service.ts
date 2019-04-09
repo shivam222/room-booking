@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import {Http, Headers} from '@angular/http';
+import {Http, Headers, URLSearchParams} from '@angular/http';
 import { map } from 'rxjs/operators';
 
 @Injectable({
@@ -71,5 +71,21 @@ export class BasicApisService {
        return res.json();
      })
      );
+  }
+
+  deleteRoomBooking(roomId: string, date: string, booking, token: string) {
+    const header = new Headers();
+    header.append('Content-Type', 'application/json');
+    header.append('Authorization', 'Bearer ' + token);
+    const params = new URLSearchParams();
+    params.set('by', booking.by);
+    params.set('description', booking.description);
+    params.set('from', booking.from);
+    params.set('to', booking.to);
+    return this.http.delete('http://localhost:4600/rooms/booking/delete/' + roomId + '/' + date, {headers: header, search: params})
+    .pipe(map(res => {
+      return res.json();
+    })
+    );
   }
 }

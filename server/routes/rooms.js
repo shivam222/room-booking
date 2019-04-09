@@ -72,10 +72,11 @@ router.put('/booking/:id', (req, res) => {
         const date = req.body.date.substring(0, 10);
         Room.find({'_id': roomId}, function(err, roomData) {
              let newRoomData = roomData[0];
+             let description = req.body.des ?  req.body.des : '-';
              const bookingData = [{
                 'from': req.body.from,
                 'to': req.body.to,
-                'description': req.body.des,
+                'description': description,
                 'by': req.body.name
              }];
              if(newRoomData.bookings) {
@@ -96,7 +97,11 @@ router.put('/booking/:id', (req, res) => {
              }
              if(validated) {
                 Room.update({'_id': roomId}, newRoomData, function(err) {
-                    res.status(200).json({msg: 'updated'});
+                    if(err) {
+                        res.status(500).json({msg: 'failed to update'});
+                    } else {
+                        res.status(200).json({msg: 'updated'});
+                    }
                });
              } else {
                 res.status(400).json({msg: 'Invalid time slot'});
@@ -147,6 +152,64 @@ router.get('/all/:org', (req, res) => {
     } else {
          res.status(400).json({msg: 'unauthorized'});
     }
+});
+
+router.delete('/booking/delete/:roomId/:date', (req, res) => {
+const bookingData = req.query;
+const roomId = req.params.roomId;
+const date = req.params.date;
+const token = req.headers.authorization.split(' ');
+let decoded;
+try {
+    decoded = jsonwebtoken.verify(token[1], 'make me secret');//FIXME:
+} catch (e) {
+     res.status(400).json({msg: 'unauthorized'});
+}
+
+if(decoded.role !== 'looker') {
+    Room.find({
+        '_id': roomId   //check if this org already exists
+    }, function (err, roomData) {
+        if (err) {
+            res.status(500).json({msg: 'error while looking if this room exists'});
+        } else {
+            if (roomData.length === 0) {
+                res.status(500).json({msg: 'there is no such room'});
+            } else {
+                const newRoomData = roomData[0];
+                if(newRoomData.bookings && newRoomData.bookings[date]) {
+                    const len = newRoomData.bookings[date].length;
+                    let index = -1;
+                    for(let i = 0; i < len; i++) {
+                        if(newRoomData.bookings[date][i].from === bookingData.from && 
+                            newRoomData.bookings[date][i].to === bookingData.to && 
+                            newRoomData.bookings[date][i].by === bookingData.by ) {
+                                index = i;
+                                break;
+                            }
+                    }
+                    if( index !== -1) {
+                        newRoomData.bookings[date].splice(index, 1);
+                        Room.update({'_id': roomId}, newRoomData, function(err) {
+                            if(err) {
+                                res.status(500).json({msg: 'failed to delete'});
+                            } else {
+                                res.status(200).json({msg: 'deleted'});
+                            }
+                        });      
+                    }
+                     //logic to update the booking
+                } else {
+                    res.status(400).json({msg: 'there are currently no bbokings in this org'});
+                }
+        }
+        }
+    });
+} else {
+    res.status(400).json({msg: 'unauthorized'});
+}
+
+
 });
 
 module.exports = router;

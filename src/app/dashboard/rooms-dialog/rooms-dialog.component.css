@@ -2,7 +2,7 @@
     justify-content: flex-end;
 }
 
-.errorMsg{
+.errorMsg {
     text-align: center;
     word-wrap:break-word;
     margin: 10px 0px;
@@ -10,6 +10,7 @@
     background-color: #FFD2D2; 
 }
 
-.loader{
+.loader {
     margin:0 auto;
 }
+

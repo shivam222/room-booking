@@ -1,3 +1,11 @@
 .loader{
     margin:0 auto;
 }
+
+.tableH {
+    font-weight: bold;
+}
+
+.wrapIt {
+    word-wrap:break-word;
+}

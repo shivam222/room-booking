@@ -9,13 +9,14 @@
 </nav>
 <div fxShow fxHide.gt-sm fxLayout="column">
 <mat-form-field fxFlex="40%" fxLayout="row">
-  <input matInput [matDatepicker]="picker" [(ngModel)]="selectedDate" placeholder="Date">
+  <input matInput [matDatepicker]="picker" [(ngModel)]="selectedDate" placeholder="MM/DD/YYYY" (ngModelChange)="onSelectSmall()">
   <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
   <mat-datepicker touchUi #picker></mat-datepicker>
 </mat-form-field>
 <mat-card  fxFlex="100%" fxLayout="row">
   <br>
   <img *ngIf="showLoader" width="50px" src ="./assets/images/loader.gif" class="loader"/>
+  <br>
   <table>
     <tr>
     <th>From</th>
@@ -27,29 +28,33 @@
     <td>{{booking?.from}}</td>
     <td>{{booking?.to}}</td>
     <td>{{booking?.by}}</td>
-    <td></td>
+    <td>delete</td>
     </tr>
   </table>
-    <br>
-      New Booking -
-    <form #f="ngForm" (ngSubmit)="newBooking(f.value)">
-      <div class="form-group">
-      <mat-form-field>
-        <input matInput #fromRef="ngModel" [(ngModel)]="from" name="from" id="from" type="time" placeholder="Start Time" class="form-control" required>  
-        </mat-form-field>
-        &nbsp;
-        <mat-form-field>
-        <input matInput #toRef="ngModel" [(ngModel)]="to" name="to" id="to" type="time" placeholder="End Time" class="form-control" required>  
+</mat-card>
+<br>
+<mat-card  fxFlex="100%" fxLayout="column">
+  New Booking -
+  <br>
+  <br>
+  <form #f="ngForm" (ngSubmit)="newBooking(f.value)">
+    <div class="form-group">
+    <mat-form-field>
+      <input matInput #fromRef="ngModel" [(ngModel)]="from" name="from" id="from" type="time" placeholder="Start Time" class="form-control" required>  
       </mat-form-field>
       &nbsp;
       <mat-form-field>
-      <textarea matInput #desRef="ngModel" [(ngModel)]="des" name="des" id="des" placeholder="Description" class="form-control"></textarea>
-      </mat-form-field>
-      </div>
-      <button mat-stroked-button color="accent"  [disabled]="!f.valid">Create</button>
-      <br>
-      <img *ngIf="showLoader2" width="50px" src ="./assets/images/loader.gif" class="loader"/>
-    </form>
+      <input matInput #toRef="ngModel" [(ngModel)]="to" name="to" id="to" type="time" placeholder="End Time" class="form-control" required>  
+    </mat-form-field>
+    &nbsp;
+    <mat-form-field>
+    <textarea matInput #desRef="ngModel" [(ngModel)]="des" name="des" id="des" placeholder="Description" class="form-control"></textarea>
+    </mat-form-field>
+    </div>
+    <button mat-stroked-button color="accent"  [disabled]="!f.valid">Create</button>
+    <br>
+    <img *ngIf="showLoader2" width="50px" src ="./assets/images/loader.gif" class="loader"/>
+  </form>
 </mat-card>
 </div>
 
@@ -61,20 +66,21 @@
 <mat-card fxFlexOffset="10%" fxFlex="65%" fxLayout="column">
   <br>
   <img *ngIf="showLoader" width="50px" src ="./assets/images/loader.gif" class="loader"/>
-  <table>
-  <tr>
-  <th>From</th>
-  <th>To</th>
-  <th>Posted By</th>
-  <th>Delete</th>
-  </tr>
-  <tr *ngFor="let booking of selectedRoomDateBooking">
-  <td>{{booking?.from}}</td>
-  <td>{{booking?.to}}</td>
-  <td>{{booking?.by}}</td>
-  <td>delete</td>
-  </tr>
-  </table>
+  <div fxLayout="row" class="tableH">
+  <div fxFlex="15%" fxLayout="column" align="left">From</div>
+  <div fxFlex="15%" fxLayout="column" align="left">To</div>
+  <div fxFlex="30%" fxLayout="column" align="left">Posted By</div>
+  <div fxFlex="30%" fxLayout="column" align="left">Description</div>
+  <div fxFlex="10%" fxLayout="column" align="left">Delete</div>
+  </div>
+  <br>
+  <div fxLayout="row" *ngFor="let booking of selectedRoomDateBooking">
+  <div fxFlex="15%" fxLayout="column" class="wrapIt">{{booking?.from}}</div>
+  <div fxFlex="15%" fxLayout="column" class="wrapIt">{{booking?.to}}</div>
+  <div fxFlex="30%" fxLayout="column" class="wrapIt">{{booking?.by}}</div>
+  <div fxFlex="30%" fxLayout="column" class="wrapIt">{{booking?.description}}</div>
+  <div fxFlex="10%" fxLayout="column" (click)=deleteBooking(booking)>delete</div>
+  </div>
  <br>
   New Booking -
   <form #f="ngForm" (ngSubmit)="newBooking(f.value)">
