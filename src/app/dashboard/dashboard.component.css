@@ -9,3 +9,7 @@
 .wrapIt {
     word-wrap:break-word;
 }
+
+.deleteLink {
+    cursor: pointer;
+}

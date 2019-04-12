@@ -15,7 +15,8 @@ import {
   MatNativeDateModule,
   MatDialogModule,
   MatRadioModule,
-  MatDividerModule
+  MatDividerModule,
+  MatMenuModule
 } from '@angular/material';
 
 
@@ -36,7 +37,8 @@ import {
     MatNativeDateModule,
     MatDialogModule,
     MatRadioModule,
-    MatDividerModule
+    MatDividerModule,
+    MatMenuModule
   ],
   exports: [
      MatBadgeModule,
@@ -54,7 +56,8 @@ import {
      MatNativeDateModule,
      MatDialogModule,
      MatRadioModule,
-     MatDividerModule
+     MatDividerModule,
+     MatMenuModule
   ]
 })
 

@@ -1,7 +1,7 @@
 <mat-toolbar color="primary" class="header">
     <img fxFlex="60px" fxFlexOffset="50%" src ="./assets/images/raw2.png" class="logo" routerLink="/"/>
 <span class="occupySpace"></span>
- <ul class="links" *ngIf="!isLogged;else otherLink">
+ <ul class="links" fxLayout="row" *ngIf="!isLogged;else otherLink" fxHide fxShow.gt-sm>
     <li><a routerLink="/org-register">
     Register
     </a></li>
@@ -13,13 +13,27 @@
     </a></li>
  </ul>
  <ng-template #otherLink>
-    <ul class="links">
-        <li><a (click)="logout()" routerLink="/log-in">
-         Logout
-        </a></li>
+    <ul class="links" fxLayout="row" fxHide fxShow.gt-sm>
         <li><a routerLink="/dashboard">
          Dashboard
         </a></li>
+        <li><a (click)="logout()" routerLink="/log-in">
+            Logout
+        </a></li>
     </ul>
  </ng-template>
+ <button mat-button [mat-menu-trigger-for]="menu" fxShow fxHide.gt-sm>
+        <mat-icon>menu</mat-icon>
+ </button>
 </mat-toolbar>
+<mat-menu x-position="before" #menu="matMenu">
+    <div *ngIf="!isLogged;else otherLink2">
+    <button mat-menu-item routerLink="/org-register">Register</button>
+    <button mat-menu-item routerLink="/sign-up">Signup</button>
+    <button mat-menu-item routerLink="/log-in">Login</button>
+    </div>
+    <ng-template #otherLink2>
+    <button mat-menu-item routerLink="/dashboard">Dashboard</button>
+    <button mat-menu-item (click)="logout()" routerLink="/log-in">Logout</button>       
+    </ng-template>
+</mat-menu>

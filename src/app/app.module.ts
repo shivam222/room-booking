@@ -28,6 +28,7 @@ import { ReverseAuthGuardService } from './services/reverse-auth-guard.service';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { RoomsDialogComponent } from './dashboard/rooms-dialog/rooms-dialog.component';
 import { AddRoomComponent } from './dashboard/rooms-dialog/add-room/add-room.component';
+import { SettingsComponent } from './settings/settings.component';
 
 @NgModule({
   declarations: [
@@ -42,7 +43,8 @@ import { AddRoomComponent } from './dashboard/rooms-dialog/add-room/add-room.com
     ForgotPasswordComponent,
     DashboardComponent,
     RoomsDialogComponent,
-    AddRoomComponent
+    AddRoomComponent,
+    SettingsComponent
   ],
   imports: [
     BrowserModule,

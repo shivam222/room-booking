@@ -9,6 +9,7 @@ import { ForgotPasswordComponent } from './forgot-password/forgot-password.compo
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { AuthguardService } from './services/authguard.service';
 import { ReverseAuthGuardService } from './services/reverse-auth-guard.service';
+import { SettingsComponent } from './settings/settings.component';
 
 const routes: Routes = [
    { path: '', component: HomeComponent},
@@ -16,7 +17,8 @@ const routes: Routes = [
    { path: 'sign-up', component: SignupComponent, canActivate: [AuthguardService]},
    { path: 'log-in', component: LoginComponent, canActivate: [AuthguardService]},
    { path: 'forgot-password', component: ForgotPasswordComponent, canActivate: [AuthguardService]},
-   { path: 'dashboard', component: DashboardComponent}// , canActivate: [ReverseAuthGuardService] FIXME:
+   { path: 'dashboard', component: DashboardComponent, canActivate: [ReverseAuthGuardService]},
+   { path: 'settings', component: SettingsComponent, canActivate: [ReverseAuthGuardService]},
 ];
 
 @NgModule({

@@ -1,19 +1,16 @@
-.header{
+/* .header{
     width: 100%;
-}
+}*/
 .links li{
     display: inline-block;
-    padding: 4%;
-    margin-right: 10px;
-}
+    padding: 7px;
+} 
 .links li a{
     color: white;
     text-decoration: none;
     font-size: .7em;
 }
-.links{
-    list-style: none;
-}
+
 .links li a:hover{
     color: burlywood;
 }

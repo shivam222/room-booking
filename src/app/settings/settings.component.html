@@ -1,0 +1,26 @@
+<mat-sidenav-container fullscreen>
+<app-header></app-header> 
+<mat-card class="user-card">
+  <mat-card-header class="head">
+    <mat-card-title><h2>{{userName}}</h2></mat-card-title>
+    <mat-card-subtitle>{{userEmail}}</mat-card-subtitle>
+  </mat-card-header>
+  <mat-card-content>
+    <div>
+      <h4>Org Name</h4>
+      {{userOrg}}
+      </div>
+      <div>
+      <h4>Your Role</h4>
+      {{userRole}}
+      </div>
+      <div>
+      <h4>Role Description</h4>
+      {{roleDescription}}
+      </div>
+  </mat-card-content>
+  <mat-card-actions>
+    <button mat-button>Change Password</button>
+  </mat-card-actions>
+</mat-card>
+</mat-sidenav-container>

@@ -67,7 +67,7 @@ router.put('/booking/:id', (req, res) => {
     } catch (e) {
          res.status(400).json({msg: 'unauthorized'});
     }
-    if(decoded.role !== 'looker') {
+    if(decoded.role === 'booker' || decoded.role === 'admin') {
         const roomId= req.params.id;
         const date = req.body.date.substring(0, 10);
         Room.find({'_id': roomId}, function(err, roomData) {
@@ -166,7 +166,7 @@ try {
      res.status(400).json({msg: 'unauthorized'});
 }
 
-if(decoded.role !== 'looker') {
+if(decoded.role === 'booker' || decoded.role === 'admin') {
     Room.find({
         '_id': roomId   //check if this org already exists
     }, function (err, roomData) {

@@ -100,6 +100,17 @@ export class DashboardComponent implements OnInit, OnDestroy  {
     });
   }
 
+  deleteBooking(bookingData) {
+    this.subscription3 = this.basicApi.deleteRoomBooking(this.selectedRoom, this.selectedDate, bookingData, localStorage.getItem('token'))
+    .subscribe(res => {
+      this.getBooking();
+      swal(res.msg);
+    }, err => {
+      const body = JSON.parse(err._body);
+      swal(body.msg);
+    });
+  }
+
   getBookingTimer(): any {
     this.subscription1 = timer(0, 15000)
     .subscribe( val => {
@@ -129,18 +140,15 @@ export class DashboardComponent implements OnInit, OnDestroy  {
     });
   }
 
-  deleteBooking(bookingData) {
-    this.subscription3 = this.basicApi.deleteRoomBooking(this.selectedRoom, this.selectedDate, bookingData, localStorage.getItem('token'))
-    .subscribe(res => {
-      this.getBooking();
-    }, err => {
-
-    });
-  }
-
   ngOnDestroy() {
+    if (this.subscription1) {
     this.subscription1.unsubscribe();
-    this.subscription2.unsubscribe();
-    this.subscription3.unsubscribe();
+    }
+    if (this.subscription2) {
+      this.subscription2.unsubscribe();
+    }
+    if (this.subscription3) {
+      this.subscription3.unsubscribe();
+    }
   }
 }
