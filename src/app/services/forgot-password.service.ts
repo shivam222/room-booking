@@ -19,4 +19,15 @@ export class ForgotPasswordService {
     })
     );
   }
+
+  changePass(newPass, token, email) {
+    const header = new Headers();
+    header.append('Content-Type', 'application/json');
+    header.append('Authorization', 'Bearer ' + token);
+    return this.http.put('http://localhost:4600/forgot-password/change/' + email, newPass, {headers: header})
+    .pipe(map(res => {
+      return res.json();
+    })
+    );
+  }
 }

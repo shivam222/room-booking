@@ -15,15 +15,22 @@ export class RoomsDialogComponent implements OnInit {
   resStatus: number;
   showLoader: boolean;
   allRooms: AllRoomRes[];
+  selectedRoom: string;
   constructor(public dialogRef: MatDialogRef<RoomsDialogComponent>, private dialog: MatDialog, private basicApi: BasicApisService) { }
 
   ngOnInit() {
+    if (localStorage.getItem('currentRoom')) {
+      this.selectedRoom = localStorage.getItem('currentRoom');
+    }
     this.showLoader = true;
     this.basicApi.getAllRooms(localStorage.getItem('token'), localStorage.getItem('userOrg'))
     .subscribe(res => {
       this.showLoader = false;
       this.resStatus = 200;
       this.allRooms = res.msg.rooms;
+      if (!this.selectedRoom) {
+        this.selectedRoom = this.allRooms[0].id;
+      }
     }, err => {
       this.showLoader = false;
       const body = JSON.parse(err._body);

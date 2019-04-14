@@ -20,7 +20,11 @@
       </div>
   </mat-card-content>
   <mat-card-actions>
-    <button mat-button>Change Password</button>
+    <button mat-button (click)="openDialog()">Change Password</button>
   </mat-card-actions>
 </mat-card>
+<br>
+<div fxFlex="100%" fxLayout="column">
+  <app-show-users></app-show-users>
+</div>
 </mat-sidenav-container>

@@ -29,6 +29,8 @@ import { MatDatepickerModule } from '@angular/material/datepicker';
 import { RoomsDialogComponent } from './dashboard/rooms-dialog/rooms-dialog.component';
 import { AddRoomComponent } from './dashboard/rooms-dialog/add-room/add-room.component';
 import { SettingsComponent } from './settings/settings.component';
+import { ChangePasswordComponent } from './settings/change-password/change-password.component';
+import { ShowUsersComponent } from './settings/show-users/show-users.component';
 
 @NgModule({
   declarations: [
@@ -44,7 +46,9 @@ import { SettingsComponent } from './settings/settings.component';
     DashboardComponent,
     RoomsDialogComponent,
     AddRoomComponent,
-    SettingsComponent
+    SettingsComponent,
+    ChangePasswordComponent,
+    ShowUsersComponent
   ],
   imports: [
     BrowserModule,
@@ -68,6 +72,6 @@ import { SettingsComponent } from './settings/settings.component';
     MatDatepickerModule
   ],
   bootstrap: [AppComponent],
-  entryComponents: [RoomsDialogComponent, AddRoomComponent]
+  entryComponents: [RoomsDialogComponent, AddRoomComponent, ChangePasswordComponent]
 })
 export class AppModule { }

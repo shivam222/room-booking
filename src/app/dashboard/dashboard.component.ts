@@ -23,6 +23,7 @@ export class DashboardComponent implements OnInit, OnDestroy  {
   selectedRoomDetails: SingleRoom;
   selectedRoomName: string;
   selectedRoomDateBooking: any; // FIXME: strict type check
+  noRoom: boolean;
   constructor(private dialog: MatDialog, private basicApi: BasicApisService) { }
   private subscription1: Subscription;
   private subscription2: Subscription;
@@ -60,9 +61,30 @@ export class DashboardComponent implements OnInit, OnDestroy  {
     });
     dialogRef.afterClosed().subscribe(result => {
       if (result !== '' && result !== undefined && result !== null) {
-         this.selectedRoom = result;
-         this.getRoomDetails();
-         localStorage.setItem('currentRoom', this.selectedRoom);
+        if (result.startsWith('delete')) {
+          const roomId = result.split('delete');
+          if (this.allRooms.length === 1) {
+            this.noRoom = true;
+            this.selectedRoom = '';
+            localStorage.removeItem('currentRoom');
+          } else if (roomId[1] === this.selectedRoom) {
+            this.selectedRoom = roomId[1] === this.allRooms[0].id ? this.allRooms[1].id : this.allRooms[0].id;
+            this.getRoomDetails();
+            localStorage.setItem('currentRoom', this.selectedRoom);
+          }
+          this.basicApi.deleteRoom(localStorage.getItem('token'), roomId[1])
+          .subscribe(res => {
+            swal(res.msg);
+          }, err => {
+            const body = JSON.parse(err._body);
+            swal(body.msg);
+          });
+        } else {
+          this.noRoom = false;
+          this.selectedRoom = result;
+          this.getRoomDetails();
+          localStorage.setItem('currentRoom', this.selectedRoom);
+        }
       }
     });
  }
@@ -128,11 +150,18 @@ export class DashboardComponent implements OnInit, OnDestroy  {
         this.selectedRoom = localStorage.getItem('currentRoom');
         this.getRoomDetails();
       } else {
+        if (this.allRooms.length > 0) {
+        this.noRoom = false;
         this.selectedRoom = this.allRooms[0].id;
         this.getRoomDetails();
         localStorage.setItem('currentRoom', this.selectedRoom);
+        } else {
+          this.noRoom = true;
+          localStorage.removeItem('currentRoom');
+        }
       }
     }, err => {
+      this.noRoom = true;
       this.showLoader = false;
       const body = JSON.parse(err._body);
       this.resMessage = body.msg;

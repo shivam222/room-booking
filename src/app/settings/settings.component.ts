@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import {MatDialog} from '@angular/material';
+import { ChangePasswordComponent } from './change-password/change-password.component';
 
 @Component({
   selector: 'app-settings',
@@ -12,9 +14,19 @@ export class SettingsComponent implements OnInit {
   userRole: string;
   roleDescription: string;
 
-  constructor() { }
+  constructor(private dialog: MatDialog) { }
 
   ngOnInit() {
+    this.userInfo();
+  }
+
+  openDialog(): void {
+    const dialogRef = this.dialog.open(ChangePasswordComponent, {
+      width: '600px'
+    });
+  }
+
+  userInfo() {
     this.userName = localStorage.getItem('userName');
     this.userEmail = localStorage.getItem('userEmail');
     this.userOrg = localStorage.getItem('userOrg');

@@ -1,12 +1,20 @@
 <mat-sidenav-container fullscreen>
 <app-header></app-header> 
+
 <nav mat-tab-nav-bar fxLayout="row" fxLayoutAlign="center center">
-  <a mat-tab-link [routerLink]="['/dashboard']" routerLinkActive #rla="routerLinkActive"
-  [active]="rla.isActive">Book</a>
-  <a mat-tab-link (click)="openDialog()">Rooms</a>
-  <a mat-tab-link [routerLink]="['/settings']" routerLinkActive #rla1="routerLinkActive"
-  [active]="rla1.isActive">Settings</a>
+    <a mat-tab-link [routerLink]="['/dashboard']" routerLinkActive #rla="routerLinkActive"
+    [active]="rla.isActive">Book</a>
+    <a mat-tab-link (click)="openDialog()">Rooms</a>
+    <a mat-tab-link [routerLink]="['/settings']" routerLinkActive #rla1="routerLinkActive"
+    [active]="rla1.isActive">Settings</a>
 </nav>
+
+<div *ngIf="noRoom; else dash">
+<h2>No Room Created</h2>
+</div>
+
+<ng-template #dash>
+<h2>{{selectedRoomName}}</h2>
 <div fxShow fxHide.gt-sm fxLayout="column">
 <mat-form-field fxFlex="40%" fxLayout="row">
   <input matInput [matDatepicker]="picker" [(ngModel)]="selectedDate" placeholder="MM/DD/YYYY" (ngModelChange)="onSelectSmall()">
@@ -103,4 +111,5 @@
   </form>
 </mat-card>
 </div>
+</ng-template>
 </mat-sidenav-container>

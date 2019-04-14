@@ -14,7 +14,7 @@ router.post('/new', (req, res) => {
     } catch (e) {
          res.status(400).json({msg: 'unauthorized'});
     }
-    if(decoded.role === 'admin') {
+    if(decoded.role === 'admin' || decoded.role === 'booker') {
         const org= req.body.org.toLowerCase().trim();
         const roomName= req.body.name.toLowerCase().trim();
         Org.find({
@@ -208,8 +208,30 @@ if(decoded.role === 'booker' || decoded.role === 'admin') {
 } else {
     res.status(400).json({msg: 'unauthorized'});
 }
-
-
 });
+
+router.delete('/delete/:roomId', (req, res) => {
+    const roomId = req.params.roomId;
+    const token = req.headers.authorization.split(' ');
+    let decoded;
+    try {
+        decoded = jsonwebtoken.verify(token[1], 'make me secret');//FIXME:
+    } catch (e) {
+         res.status(400).json({msg: 'unauthorized'});
+    }
+    
+    if(decoded.role === 'booker' || decoded.role === 'admin') {     
+        Room.remove({_id: roomId}, function(err){
+            if(err){
+                res.status(400).json({msg: 'unable to delete room'});
+            } else {
+                res.status(200).json({msg: 'deleted'});
+            }
+        });
+    } else {
+        res.status(400).json({msg: 'unauthorized'});
+    }
+});
+
 
 module.exports = router;

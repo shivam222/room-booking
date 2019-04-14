@@ -8,16 +8,24 @@
       </div>
     </div>
     <ng-template #listBlock>
+        <mat-card  fxFlex="100%" fxLayout="column">
         <form #f="ngForm">
-            <label *ngFor="let roomItem of allRooms">
-                <input type="radio" ngModel name="room" [value]="roomItem.id"> 
-                {{ roomItem.name }}<br>
-              </label>
-              <br>
+         <div *ngFor="let roomItem of allRooms" fxLayout="row">
+            <div fxLayout="column" fxFlex="80%"> 
+            <label>
+                <input type="radio" [(ngModel)]="selectedRoom" name="room" [value]="roomItem.id"> 
+                {{ roomItem.name }}
+            </label>
+            </div>
+            <div class="deleteLink" fxLayout="column" fxFlex="20%">
+                    <button mat-stroked-button [mat-dialog-close]="'delete'+roomItem.id" color="primary"><mat-icon>delete</mat-icon></button>
+            </div>
+         </div>
               <mat-divider></mat-divider> 
               <br>
             <button mat-stroked-button [mat-dialog-close]="f.value.room" color="primary">OK</button>
         </form>
+        </mat-card>
     </ng-template>
     <br>
 </mat-dialog-content>
