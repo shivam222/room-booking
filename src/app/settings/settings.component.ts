@@ -12,6 +12,7 @@ export class SettingsComponent implements OnInit {
   userEmail: string;
   userOrg: string;
   userRole: string;
+  isAdmin: boolean;
   roleDescription: string;
 
   constructor(private dialog: MatDialog) { }
@@ -32,6 +33,7 @@ export class SettingsComponent implements OnInit {
     this.userOrg = localStorage.getItem('userOrg');
     this.userRole = localStorage.getItem('userRole');
     if (this.userRole === 'admin') {
+      this.isAdmin = true;
       this.roleDescription = `Admin can add more people.Remove a person.Change roles of a person.
       And all rights of a Booker`;
     } else if (this.userRole === 'booker') {

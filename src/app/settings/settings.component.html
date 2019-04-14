@@ -24,7 +24,7 @@
   </mat-card-actions>
 </mat-card>
 <br>
-<div fxFlex="100%" fxLayout="column">
+<div fxFlex="100%" fxLayout="column" *ngIf="isAdmin">
   <app-show-users></app-show-users>
 </div>
 </mat-sidenav-container>

@@ -31,6 +31,7 @@ import { AddRoomComponent } from './dashboard/rooms-dialog/add-room/add-room.com
 import { SettingsComponent } from './settings/settings.component';
 import { ChangePasswordComponent } from './settings/change-password/change-password.component';
 import { ShowUsersComponent } from './settings/show-users/show-users.component';
+import { AdminService } from './services/admin.service';
 
 @NgModule({
   declarations: [
@@ -69,7 +70,8 @@ import { ShowUsersComponent } from './settings/show-users/show-users.component';
     AuthguardService,
     ForgotPasswordService,
     ReverseAuthGuardService,
-    MatDatepickerModule
+    MatDatepickerModule,
+    AdminService
   ],
   bootstrap: [AppComponent],
   entryComponents: [RoomsDialogComponent, AddRoomComponent, ChangePasswordComponent]

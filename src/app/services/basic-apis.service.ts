@@ -95,7 +95,10 @@ export class BasicApisService {
     header.append('Authorization', 'Bearer ' + token);
     header.append('Content-Type', 'application/json');
     return this.http.get('http://localhost:4600/token/check/', {headers: header})
-    .pipe(first(res => res.json()));
+    .pipe(first(res => {
+      return res.json();
+    })
+    );
   }
 
   deleteRoom(token: string, roomId: string) {
