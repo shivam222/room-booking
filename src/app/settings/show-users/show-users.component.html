@@ -6,6 +6,9 @@
 <img *ngIf="showLoader" width="50px" src ="./assets/images/loader.gif" class="loader"/>
 <div fxLayout="row" *ngFor="let user of users">
 <div fxFlex="40%" fxLayout="column" class="wrapIt">{{user}}</div>
+<div fxFlex="10%" fxLayout="column" (click)="deleteUser(user)" class="deleteLink">
+            <mat-icon>delete</mat-icon>
+</div>
 </div>
 <br>
 </mat-card>

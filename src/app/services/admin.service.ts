@@ -20,4 +20,15 @@ export class AdminService {
     })
     );
   }
+
+  deleteUser(token: string, userEmail: string) {
+    const header = new Headers();
+    header.append('Authorization', 'Bearer ' + token);
+    header.append('Content-Type', 'application/json');
+    return this.http.delete('http://localhost:4600/admin/user/delete/' + userEmail, {headers: header})
+    .pipe(map(res => {
+      return res.json();
+    })
+    );
+  }
 }

@@ -1,6 +1,7 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { AdminService } from '../../services/admin.service';
 import { Subscription } from 'rxjs';
+import swal from 'sweetalert';
 
 @Component({
   selector: 'app-show-users',
@@ -15,6 +16,7 @@ export class ShowUsersComponent implements OnInit, OnDestroy {
   showLoader: boolean;
   constructor(private adminService: AdminService) { }
   private subscription1: Subscription;
+  private subscription2: Subscription;
 
   ngOnInit() {
    this.showLoader = true;
@@ -37,4 +39,16 @@ export class ShowUsersComponent implements OnInit, OnDestroy {
     }
   }
 
+  deleteUser(userEmail) {
+    const sure = confirm('Are You Sure you want to remove' + userEmail);
+    if (sure) {
+      this.subscription1 = this.adminService.deleteUser(localStorage.getItem('token'), userEmail)
+      .subscribe(res => {
+        swal(res.msg);
+      }, err => {
+        const body = JSON.parse(err._body);
+        swal(body.msg);
+      });
+    }
+  }
 }

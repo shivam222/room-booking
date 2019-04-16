@@ -32,6 +32,12 @@ export class BasicApisService {
   }
   }
 
+  getUserRole() {
+    if (localStorage.getItem('userRole')) {
+      return localStorage.getItem('userRole');
+    }
+  }
+
   getAllRooms(token: string, orgName: string) {
     const header = new Headers();
     header.append('Authorization', 'Bearer ' + token);

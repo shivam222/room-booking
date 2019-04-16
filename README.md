@@ -25,3 +25,33 @@ Run `ng e2e` to execute the end-to-end tests via [Protractor](http://www.protrac
 ## Further help
 
 To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI README](https://github.com/angular/angular-cli/blob/master/README.md).
+
+## Structure of project
+
+In root dir we have server file(express server), models folder which describes the structure of mongodb tables, server folder contains a lib and a routes folder.
+lib folder contains file which have common function to be used by routes folder.routes folder contains route based handling of each request from the front-end.
+In src/app folder lies the angular code.
+
+## How to run server
+
+To run angular server type ng serve
+To run node server type nodemon server
+To run mongodb server-> Go to C:/Program Files/Mongodb/3.2/bin/mongodb
+
+## Compile angular code
+
+Before running node server its important to run ng build to compile new changes of angular code.
+
+## Create new ang component
+
+Type ng g c name --module=app.module
+
+## Create a service
+
+Type ng g s services/name --module=app.module
+
+## Module Files
+
+app.module - main module files containg all services and components
+app-routing.module - in this module we define links to each component
+material.module - in this module we register all angular material components being used
