@@ -31,4 +31,16 @@ export class AdminService {
     })
     );
   }
+
+  changeRole(token: string, email: string, newRole: string) {
+    const header = new Headers();
+    const newRoleObj = {newRole};
+    header.append('Authorization', 'Bearer ' + token);
+    header.append('Content-Type', 'application/json');
+    return this.http.put('http://localhost:4600/admin/user/role/update/' + email, newRoleObj, {headers: header})
+    .pipe(map(res => {
+      return res.json();
+    })
+    );
+  }
 }

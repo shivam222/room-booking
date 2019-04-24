@@ -1,0 +1,42 @@
+<h2 mat-dialog-title>Change Role Of The User {{data?.email}}</h2>
+<mat-dialog-content>
+<!--<div class="commonMsg">
+  <div *ngIf="resStatus === 200; else errBlock">
+    <div class="successMsg">
+    {{resMessage}}
+    </div>
+  </div>
+  <ng-template #errBlock>
+    <div class="errorMsg" *ngIf="resStatus === 400 || resStatus === 500">
+    {{resMessage}}
+    </div>
+  </ng-template>
+</div>-->
+<form #f="ngForm" (ngSubmit)="change(f.value)">
+  <div class="form-group">
+    <div fxLayout="column" fxFlex="50%"> 
+      <label>
+          <input type="radio" [(ngModel)]="selectedRole" name="role" [value]="role1"> 
+          {{ role1 }}
+      </label>
+      </div>
+      <div fxLayout="column" fxFlex="50%"> 
+        <label>
+            <input type="radio" [(ngModel)]="selectedRole" name="role" [value]="role2"> 
+            {{ role2 }}
+        </label>
+        </div>
+  </div>
+  <br><br>
+  <mat-divider></mat-divider>
+  <button mat-stroked-button color="accent"  [disabled]="!f.valid">Change Role</button>
+  <br>
+  <!--<img *ngIf="showLoader" width="50px" src ="./assets/images/loader.gif" class="loader"/>-->
+</form>
+<br>
+</mat-dialog-content>
+<mat-dialog-actions>
+  <div>
+  <button (click)="close()" mat-stroked-button color="primary">Close</button>
+  </div>
+</mat-dialog-actions>

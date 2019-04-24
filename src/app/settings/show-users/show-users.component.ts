@@ -1,5 +1,7 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { AdminService } from '../../services/admin.service';
+import {MatDialog} from '@angular/material';
+import { ChangeRoleComponent } from './change-role/change-role.component';
 import { Subscription } from 'rxjs';
 import swal from 'sweetalert';
 
@@ -14,7 +16,7 @@ export class ShowUsersComponent implements OnInit, OnDestroy {
   resMessage: string;
   resStatus: number;
   showLoader: boolean;
-  constructor(private adminService: AdminService) { }
+  constructor(private adminService: AdminService, private dialog: MatDialog) { }
   private subscription1: Subscription;
   private subscription2: Subscription;
 
@@ -40,7 +42,7 @@ export class ShowUsersComponent implements OnInit, OnDestroy {
   }
 
   deleteUser(userEmail) {
-    const sure = confirm('Are You Sure you want to remove' + userEmail);
+    const sure = confirm('Are You Sure you want to remove ' + userEmail);
     if (sure) {
       this.subscription1 = this.adminService.deleteUser(localStorage.getItem('token'), userEmail)
       .subscribe(res => {
@@ -51,4 +53,15 @@ export class ShowUsersComponent implements OnInit, OnDestroy {
       });
     }
   }
+
+  changeRole(userEmail, userRole) {
+    this.openDialog(userEmail, userRole);
+  }
+
+  openDialog(email, role): void {
+    this.dialog.open(ChangeRoleComponent, {
+      width: '600px',
+      data: {email, role}
+    });
+ }
 }

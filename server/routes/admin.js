@@ -23,7 +23,7 @@ router.get('/users/:org', (req, res) => {
                 } else {
                     let emailArr = [];
                     usersData.forEach(function(ele, index){
-                        emailArr[index]= ele.email;
+                        emailArr[index]= {'email': ele.email, 'role': ele.role};
                         if(index === usersData.length - 1) {
                          res.status(200).json({msg: emailArr});
                         }
@@ -69,5 +69,22 @@ router.delete('/user/delete/:email', (req,res) => {
     }
 });
 
+router.put('/user/role/update/:email', (req, res) => {
+    const email= req.params.email;
+    const newRole = req.body.newRole;
+    console.log(email+' '+newRole);
+    const token =  req.headers.authorization.split(' ');
+    let decoded;
+    try {
+         decoded = jsonwebtoken.verify(token[1], 'make me secret');//FIXME:
+    } catch (e) {
+         res.status(400).json({msg: 'unauthorized'});
+    }
+    if(decoded.role === 'admin') {
+      console.log('admin yes');
+    } else {
+        return res.status(400).json({msg: 'unauthorized'});
+    }
+});
 
 module.exports = router;

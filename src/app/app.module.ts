@@ -32,6 +32,7 @@ import { SettingsComponent } from './settings/settings.component';
 import { ChangePasswordComponent } from './settings/change-password/change-password.component';
 import { ShowUsersComponent } from './settings/show-users/show-users.component';
 import { AdminService } from './services/admin.service';
+import { ChangeRoleComponent } from './settings/show-users/change-role/change-role.component';
 
 @NgModule({
   declarations: [
@@ -49,7 +50,8 @@ import { AdminService } from './services/admin.service';
     AddRoomComponent,
     SettingsComponent,
     ChangePasswordComponent,
-    ShowUsersComponent
+    ShowUsersComponent,
+    ChangeRoleComponent
   ],
   imports: [
     BrowserModule,
@@ -74,6 +76,6 @@ import { AdminService } from './services/admin.service';
     AdminService
   ],
   bootstrap: [AppComponent],
-  entryComponents: [RoomsDialogComponent, AddRoomComponent, ChangePasswordComponent]
+  entryComponents: [RoomsDialogComponent, AddRoomComponent, ChangePasswordComponent, ChangeRoleComponent]
 })
 export class AppModule { }

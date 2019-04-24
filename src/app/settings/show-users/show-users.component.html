@@ -1,13 +1,20 @@
 <mat-card class="users-card">
 <div fxLayout="row" class="tableH">
 <div fxFlex="40%" fxLayout="column" align="left">Email</div>
+<div fxFlex="20%" fxLayout="column" align="left">Role</div>
+<div fxFlex="10%" fxLayout="column" align="left">Delete</div>
+<div fxFlex="10%" fxLayout="column" align="left">Change Role</div>
 </div>
 <br>
 <img *ngIf="showLoader" width="50px" src ="./assets/images/loader.gif" class="loader"/>
 <div fxLayout="row" *ngFor="let user of users">
-<div fxFlex="40%" fxLayout="column" class="wrapIt">{{user}}</div>
-<div fxFlex="10%" fxLayout="column" (click)="deleteUser(user)" class="deleteLink">
-            <mat-icon>delete</mat-icon>
+<div fxFlex="40%" fxLayout="column" class="wrapIt">{{user?.email}}</div>
+<div fxFlex="20%" fxLayout="column" class="wrapIt">{{user?.role}}</div>
+<div fxFlex="10%" fxLayout="column" (click)="deleteUser(user.email)" class="link">
+    <mat-icon>delete</mat-icon>
+</div>
+<div fxFlex="10%" fxLayout="column" (click)="changeRole(user.email, user.role)" class="link">
+    <mat-icon>accessibility</mat-icon>
 </div>
 </div>
 <br>
