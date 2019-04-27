@@ -81,7 +81,27 @@ router.put('/user/role/update/:email', (req, res) => {
          res.status(400).json({msg: 'unauthorized'});
     }
     if(decoded.role === 'admin') {
-      console.log('admin yes');
+      User.find({email: email}, function(err, userData) {
+         if(err) {
+            res.status(500).json({msg: 'failed to find the user'});
+         } else {
+             if(userData.length === 0) {
+                res.status(400).json({msg: 'No such user:(Strange'});
+             } else {
+                 if(newRole=== 'admin' || newRole=== 'looker' || newRole=== 'booker') {
+                     var newUserData = userData[0];
+                     newUserData.role = newRole;
+                     User.update({email: email}, newUserData, function(err) {
+                        if(err) {
+                            res.status(500).json({msg: 'failed to update'});
+                        } else {
+                            res.status(200).json({msg: 'updated'});
+                        }
+                     });                     
+                 }
+             }
+         }
+      });
     } else {
         return res.status(400).json({msg: 'unauthorized'});
     }

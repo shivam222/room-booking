@@ -20,7 +20,9 @@ app.use(bodyParser.json());
 
 app.use(express.static(path.join(__dirname,'dist/roomBooking')));
 
-mongoose.connect('mongodb://localhost:27017/roomBooking');
+// mongoose.connect('mongodb://localhost:27017/roomBooking');
+//FIXME: pass
+mongoose.connect('mongodb+srv://shivamb61:fasterthen@booking-0xv7w.mongodb.net/test?retryWrites=true');
 
 app.use('/org-register',orgRegister);
 app.use('/sign-up',userRegister);
@@ -36,6 +38,11 @@ app.get('*',(req,res)=>{
     res.sendFile(path.join(__dirname, 'dist/roomBooking/index.html'));
 });
 
-app.listen(4600,function(req,res){
+let port = process.env.PORT;
+if (port == null || port == "") {
+  port = 8000;
+}
+
+app.listen(port,function(req,res){
     console.log('Running');
 });

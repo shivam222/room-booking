@@ -71,41 +71,45 @@ router.put('/booking/:id', (req, res) => {
         const roomId= req.params.id;
         const date = req.body.date.substring(0, 10);
         Room.find({'_id': roomId}, function(err, roomData) {
-             let newRoomData = roomData[0];
-             let description = req.body.des ?  req.body.des : '-';
-             const bookingData = [{
-                'from': req.body.from,
-                'to': req.body.to,
-                'description': description,
-                'by': req.body.name
-             }];
-             if(newRoomData.bookings) {
-               if(newRoomData.bookings.hasOwnProperty(date)) {
-                  // validation for available slot
-                  if(bookingCheck.isAvailable(newRoomData.bookings[date], bookingData[0].from, bookingData[0].to)) {
-                    newRoomData.bookings[date].push(bookingData[0]);
-                   } else {
-                       validated = false;
-                   }            
-               } else {
-                   newRoomData.bookings[date] = bookingData;
-               }
-             } else{
-                 newRoomData.bookings = {
-                     [date]: bookingData
-                 };
-             }
-             if(validated) {
-                Room.update({'_id': roomId}, newRoomData, function(err) {
-                    if(err) {
-                        res.status(500).json({msg: 'failed to update'});
-                    } else {
-                        res.status(200).json({msg: 'updated'});
-                    }
-               });
-             } else {
-                res.status(400).json({msg: 'Invalid time slot'});
-             }
+            if(err) {
+                res.status(500).json({msg: 'failed to find the user'});
+            } else {
+                let newRoomData = roomData[0];
+                let description = req.body.des ?  req.body.des : '-';
+                const bookingData = [{
+                   'from': req.body.from,
+                   'to': req.body.to,
+                   'description': description,
+                   'by': req.body.name
+                }];
+                if(newRoomData.bookings) {
+                  if(newRoomData.bookings.hasOwnProperty(date)) {
+                     // validation for available slot
+                     if(bookingCheck.isAvailable(newRoomData.bookings[date], bookingData[0].from, bookingData[0].to)) {
+                       newRoomData.bookings[date].push(bookingData[0]);
+                      } else {
+                          validated = false;
+                      }            
+                  } else {
+                      newRoomData.bookings[date] = bookingData;
+                  }
+                } else{
+                    newRoomData.bookings = {
+                        [date]: bookingData
+                    };
+                }
+                if(validated) {
+                   Room.update({'_id': roomId}, newRoomData, function(err) {
+                       if(err) {
+                           res.status(500).json({msg: 'failed to update'});
+                       } else {
+                           res.status(200).json({msg: 'updated'});
+                       }
+                  });
+                } else {
+                   res.status(400).json({msg: 'Invalid time slot'});
+                }
+            }
         });
     } else {
         return res.status(400).json({msg: 'unauthorized'});

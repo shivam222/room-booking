@@ -15,6 +15,9 @@ export class ChangeRoleComponent implements OnInit {
 
   role1: string;
   role2: string;
+  showLoader: boolean;
+  resMessage: string;
+  resStatus: number;
   ngOnInit() {
     if (this.data.role === 'booker') {
       this.role1 = 'looker';
@@ -29,12 +32,20 @@ export class ChangeRoleComponent implements OnInit {
   }
 
   change(value) {
+    if (value.role === 'looker' || value.role === 'booker' || value.role === 'admin') {
+    this.showLoader = true;
     this.adminService.changeRole(localStorage.getItem('token'), this.data.email, value.role)
     .subscribe( res => {
-
+      this.showLoader = false;
+      this.resMessage = res.msg;
+      this.resStatus = 200;
     }, err => {
-
+      this.showLoader = false;
+      const body = JSON.parse(err._body);
+      this.resMessage = body.msg;
+      this.resStatus = err.status;
     });
+  }
   }
 
   close() {

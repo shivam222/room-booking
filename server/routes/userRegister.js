@@ -118,7 +118,7 @@ router.post('/new', (req, res) => {
                                 res.status(500).json({msg: 'error while searching if this email already exists'});
                             }
                             else {
-                                if (emailData.length == 0) {
+                                if (emailData.length === 0) {
                                     //Salt Hash The Password
                                     const password = createSaltHashedPassword(req.body.password);
                                     newUser.password = password;
@@ -153,7 +153,7 @@ router.post('/new', (req, res) => {
                         });
                     }
                     else {
-                        res.status(400).json({msg: 'this org already exists'});
+                        res.status(400).json({msg: 'this org does not exists'});
                     }
                 }
             });
