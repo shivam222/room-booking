@@ -20,10 +20,10 @@ app.use(bodyParser.json());
 
 app.use(express.static(path.join(__dirname,'dist/roomBooking')));
 
-// mongoose.connect('mongodb://localhost:27017/roomBooking');
+ mongoose.connect('mongodb://localhost:27017/roomBooking');
 //FIXME: pass major
 console.log('|||||||||||||||||||||||||||||||||');
-mongoose.connect('mongodb+srv://shivamb61:fasterthen@booking-0xv7w.mongodb.net/roomBooking?retryWrites=true');
+//mongoose.connect('mongodb+srv://shivamb61:fasterthen@booking-0xv7w.mongodb.net/roomBooking?retryWrites=true');
 
 app.use('/org-register',orgRegister);
 app.use('/sign-up',userRegister);
