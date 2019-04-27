@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import {Http, Headers, URLSearchParams} from '@angular/http';
 import { map } from 'rxjs/operators';
 import { first } from 'rxjs/operators';
+import { config } from '../../../config/default';
 
 @Injectable({
   providedIn: 'root'
@@ -12,8 +13,9 @@ export class BasicApisService {
 
   doesOrgExists(org: string) {
     const header = new Headers();
+    console.log(config.url1);
     header.append('Content-Type', 'application/json');
-    return this.http.get('http://localhost:4600/org/exist/' + org, {headers: header})
+    return this.http.get(config.url1 + 'org/exist/' + org, {headers: header})
     .pipe(map(res => res.text()));
   }
 
