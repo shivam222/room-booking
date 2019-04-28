@@ -13,7 +13,6 @@ export class BasicApisService {
 
   doesOrgExists(org: string) {
     const header = new Headers();
-    console.log(config.url1);
     header.append('Content-Type', 'application/json');
     return this.http.get(config.url1 + 'org/exist/' + org, {headers: header})
     .pipe(map(res => res.text()));
@@ -22,7 +21,7 @@ export class BasicApisService {
   doesEmailExists(email: string) {
     const header = new Headers();
     header.append('Content-Type', 'application/json');
-    return this.http.get('http://localhost:4600/email/exist/' + email, {headers: header})
+    return this.http.get(config.url1 + 'email/exist/' + email, {headers: header})
     .pipe(map(res => res.text()));
   }
 
@@ -44,7 +43,7 @@ export class BasicApisService {
     const header = new Headers();
     header.append('Authorization', 'Bearer ' + token);
     header.append('Content-Type', 'application/json');
-    return this.http.get('http://localhost:4600/rooms/all/' + orgName, {headers: header})
+    return this.http.get(config.url1 + 'rooms/all/' + orgName, {headers: header})
     .pipe(map(res => res.json()));
   }
 
@@ -56,7 +55,7 @@ export class BasicApisService {
     const header = new Headers();
     header.append('Content-Type', 'application/json');
     header.append('Authorization', 'Bearer ' + token);
-    return this.http.post('http://localhost:4600/rooms/new', roomData, {headers: header})
+    return this.http.post(config.url1 + 'rooms/new', roomData, {headers: header})
     .pipe(map(res => {
       return res.json();
     })
@@ -75,7 +74,7 @@ export class BasicApisService {
      const header = new Headers();
      header.append('Content-Type', 'application/json');
      header.append('Authorization', 'Bearer ' + token);
-     return this.http.put('http://localhost:4600/rooms/booking/' + roomId, bookData, {headers: header})
+     return this.http.put(config.url1 + 'rooms/booking/' + roomId, bookData, {headers: header})
      .pipe(map(res => {
        return res.json();
      })
@@ -91,7 +90,7 @@ export class BasicApisService {
     params.set('description', booking.description);
     params.set('from', booking.from);
     params.set('to', booking.to);
-    return this.http.delete('http://localhost:4600/rooms/booking/delete/' + roomId + '/' + date, {headers: header, search: params})
+    return this.http.delete(config.url1 + 'rooms/booking/delete/' + roomId + '/' + date, {headers: header, search: params})
     .pipe(map(res => {
       return res.json();
     })
@@ -102,7 +101,7 @@ export class BasicApisService {
     const header = new Headers();
     header.append('Authorization', 'Bearer ' + token);
     header.append('Content-Type', 'application/json');
-    return this.http.get('http://localhost:4600/token/check/', {headers: header})
+    return this.http.get(config.url1 + 'token/check/', {headers: header})
     .pipe(first(res => {
       return res.json();
     })
@@ -113,7 +112,7 @@ export class BasicApisService {
     const header = new Headers();
     header.append('Authorization', 'Bearer ' + token);
     header.append('Content-Type', 'application/json');
-    return this.http.delete('http://localhost:4600/rooms/delete/' + roomId, {headers: header})
+    return this.http.delete(config.url1 + 'rooms/delete/' + roomId, {headers: header})
     .pipe(map(res => {
       return res.json();
     })

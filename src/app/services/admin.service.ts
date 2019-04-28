@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import {Http, Headers} from '@angular/http';
 import { map } from 'rxjs/operators';
 import { first } from 'rxjs/operators';
+import { config } from '../../../config/default';
 
 @Injectable({
   providedIn: 'root'
@@ -14,7 +15,7 @@ export class AdminService {
     const header = new Headers();
     header.append('Authorization', 'Bearer ' + token);
     header.append('Content-Type', 'application/json');
-    return this.http.get('http://localhost:4600/admin/users/' + org, {headers: header})
+    return this.http.get(config.url1 + 'admin/users/' + org, {headers: header})
     .pipe(map(res => {
       return res.json();
     })
@@ -25,7 +26,7 @@ export class AdminService {
     const header = new Headers();
     header.append('Authorization', 'Bearer ' + token);
     header.append('Content-Type', 'application/json');
-    return this.http.delete('http://localhost:4600/admin/user/delete/' + userEmail, {headers: header})
+    return this.http.delete(config.url1 + 'admin/user/delete/' + userEmail, {headers: header})
     .pipe(map(res => {
       return res.json();
     })
@@ -37,7 +38,7 @@ export class AdminService {
     const newRoleObj = {newRole};
     header.append('Authorization', 'Bearer ' + token);
     header.append('Content-Type', 'application/json');
-    return this.http.put('http://localhost:4600/admin/user/role/update/' + email, newRoleObj, {headers: header})
+    return this.http.put(config.url1 + 'admin/user/role/update/' + email, newRoleObj, {headers: header})
     .pipe(map(res => {
       return res.json();
     })

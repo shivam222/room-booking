@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { ForgotPass } from '../models/forgotPass';
 import {Http, Headers} from '@angular/http';
 import { map } from 'rxjs/operators';
+import { config } from '../../../config/default';
 
 @Injectable({
   providedIn: 'root'
@@ -13,7 +14,7 @@ export class ForgotPasswordService {
   forgotPass(userData: ForgotPass) {
     const header = new Headers();
     header.append('Content-Type', 'application/json');
-    return this.http.post('http://localhost:4600/forgot-password/reset', userData, {headers: header})
+    return this.http.post(config.url1 + 'forgot-password/reset', userData, {headers: header})
     .pipe(map(res => {
       return res.json();
     })
@@ -24,7 +25,7 @@ export class ForgotPasswordService {
     const header = new Headers();
     header.append('Content-Type', 'application/json');
     header.append('Authorization', 'Bearer ' + token);
-    return this.http.put('http://localhost:4600/forgot-password/change/' + email, newPass, {headers: header})
+    return this.http.put(config.url1 + 'forgot-password/change/' + email, newPass, {headers: header})
     .pipe(map(res => {
       return res.json();
     })

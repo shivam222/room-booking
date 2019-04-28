@@ -5,6 +5,7 @@ const nodemailer = require('nodemailer');
 const User = require('../../models/userStructure');
 const pendingUser = require('../../models/pendingUserStructure');
 const Org = require('../../models/orgStructure');
+const  config =   require('../../../config/default');
 
 const router = express.Router();
 
@@ -48,7 +49,7 @@ function sendMail(transporter, mailOptions, lmt, callback){
 }
 
 function mailFunc(adminMail, userMail, userId){
-    const verificationUrl= `http://localhost:4600/sign-up/verify/${userId}`;
+    const verificationUrl= config.url1 + `sign-up/verify/${userId}`;
     const transporter = nodemailer.createTransport({
         host: 'smtp.gmail.com',
         port: '587',

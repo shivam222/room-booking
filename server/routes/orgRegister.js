@@ -5,6 +5,7 @@ const nodemailer = require('nodemailer');
 const User = require('../../models/userStructure');
 const pendingUser = require('../../models/pendingUserStructure');
 const Org = require('../../models/orgStructure');
+const  config =   require('../../../config/default');
 
 const router = express.Router();
 
@@ -99,7 +100,7 @@ router.post('/new', (req, res) => {
                                         }
                                         else{
                                             //logic create link and send the email
-                                            const verificationUrl= `http://localhost:4600/org-register/verify/${newUser._id}`;
+                                            const verificationUrl= config.url1 + `org-register/verify/${newUser._id}`;
                                             const transporter = nodemailer.createTransport({
                                                 host: 'smtp.gmail.com',
                                                 port: '587',

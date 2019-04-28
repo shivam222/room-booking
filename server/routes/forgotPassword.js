@@ -5,6 +5,7 @@ const jsonwebtoken = require('jsonwebtoken');
 const nodemailer = require('nodemailer');
 const User = require('../../models/userStructure');
 const ForgotPassword = require('../../models/forgotPassword');
+const config = require('../../config/default');
 
 
 const router = express.Router();
@@ -89,7 +90,7 @@ router.post('/reset', (req, res) => {
                     if(err){
                         res.status(500).json({msg: 'Unable to save data'});
                     } else {
-                        const verificationUrl= `http://localhost:4600/forgot-password/verify/${newData._id}`;
+                        const verificationUrl= config.url1 + `forgot-password/verify/${newData._id}`;
                         const transporter = nodemailer.createTransport({
                             host: 'smtp.gmail.com',
                             port: '587',
