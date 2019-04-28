@@ -96,7 +96,7 @@ router.post('/reset', (req, res) => {
                             port: '587',
                             auth: {
                               user: 'shivamez234@gmail.com',
-                              pass: process.env.VERIFICATIONLINKPASS
+                              pass: 'biostar1234'
                             },
                             secureConnection: 'false',
                             tls: {

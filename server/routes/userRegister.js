@@ -55,7 +55,7 @@ function mailFunc(adminMail, userMail, userId){
         port: '587',
         auth: {
             user: 'shivamez234@gmail.com',
-            pass: process.env.VERIFICATIONLINKPASS
+            pass: 'biostar1234'
         },
         secureConnection: 'false',
         tls: {
@@ -226,7 +226,7 @@ router.get('/verify/:randNum', (req, res) => {
                                                     port: '587',
                                                     auth: {
                                                         user: 'shivamez234@gmail.com',
-                                                        pass: process.env.VERIFICATIONLINKPASS
+                                                        pass: 'biostar1234'
                                                     },
                                                     secureConnection: 'false',
                                                     tls: {

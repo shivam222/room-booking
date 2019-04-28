@@ -106,7 +106,7 @@ router.post('/new', (req, res) => {
                                                 port: '587',
                                                 auth: {
                                                   user: 'shivamez234@gmail.com',//FIXME:
-                                                  pass: process.env.VERIFICATIONLINKPASS
+                                                  pass: 'biostar1234'
                                                 },
                                                 secureConnection: 'false',
                                                 tls: {
