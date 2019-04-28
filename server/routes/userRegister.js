@@ -5,7 +5,7 @@ const nodemailer = require('nodemailer');
 const User = require('../../models/userStructure');
 const pendingUser = require('../../models/pendingUserStructure');
 const Org = require('../../models/orgStructure');
-const  config =   require('../../../config/default');
+const  config =   require('../../config/default');
 
 const router = express.Router();
 
