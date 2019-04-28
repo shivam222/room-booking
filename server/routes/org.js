@@ -4,7 +4,7 @@ const Org = require('../../models/orgStructure');
 const router = express.Router();
 
 router.get('/exist/:org', (req, res) => {
-    res.send(false);
+    res.send(true);
 //   const org= req.params.org.toLowerCase().trim();
 //   Org.find({
 //     'name': org   //check if this org already exists
