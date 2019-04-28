@@ -23,7 +23,8 @@ app.use(express.static(path.join(__dirname,'dist/roomBooking')));
 //mongoose.connect('mongodb://localhost:27017/roomBooking');
 //FIXME: pass major
 console.log('|||||||||||||||||||||||||||||||||');
-mongoose.connect('mongodb+srv://shivamb61:fasterthen@booking-0xv7w.mongodb.net'/{dbName: 'roomBooking'});
+//mongoose.connect('mongodb+srv://shivamb61:fasterthen@booking-0xv7w.mongodb.net'/{dbName: 'roomBooking'});
+mongoose.connect('mongodb+srv://shivamb61:fasterthen@booking-0xv7w.mongodb.net/roomBooking?retryWrites=true');
 app.use('/org-register',orgRegister);
 app.use('/sign-up',userRegister);
 app.use('/org',org);
@@ -40,9 +41,9 @@ app.get('*',(req,res)=>{
 
 let port = process.env.PORT;
 if (port == null || port == "") {
-  port = 4600;
+  port = 80;
 }
 
-app.listen(port,function(){
+app.listen(port,function(req,res){
     console.log('Running');
 });
