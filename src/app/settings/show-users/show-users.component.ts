@@ -43,7 +43,7 @@ export class ShowUsersComponent implements OnInit, OnDestroy {
 
   deleteUser(userEmail) {
     const sure = confirm('Are You Sure you want to remove ' + userEmail);
-    if (sure) {
+    if (sure && userEmail !== localStorage.getItem('userEmail')) {
       this.subscription1 = this.adminService.deleteUser(localStorage.getItem('token'), userEmail)
       .subscribe(res => {
         swal(res.msg);
@@ -51,6 +51,8 @@ export class ShowUsersComponent implements OnInit, OnDestroy {
         const body = JSON.parse(err._body);
         swal(body.msg);
       });
+    } else if (userEmail === localStorage.getItem('userEmail')) {
+       swal('Sorry!You can not delete yourself');
     }
   }
 
