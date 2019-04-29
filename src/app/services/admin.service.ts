@@ -15,7 +15,7 @@ export class AdminService {
     const header = new Headers();
     header.append('Authorization', 'Bearer ' + token);
     header.append('Content-Type', 'application/json');
-    return this.http.get(config.url1 + 'admin/users/' + org, {headers: header})
+    return this.http.get(config.config.url1 + 'admin/users/' + org, {headers: header})
     .pipe(map(res => {
       return res.json();
     })
@@ -26,7 +26,7 @@ export class AdminService {
     const header = new Headers();
     header.append('Authorization', 'Bearer ' + token);
     header.append('Content-Type', 'application/json');
-    return this.http.delete(config.url1 + 'admin/user/delete/' + userEmail, {headers: header})
+    return this.http.delete(config.config.url1 + 'admin/user/delete/' + userEmail, {headers: header})
     .pipe(map(res => {
       return res.json();
     })
@@ -38,7 +38,7 @@ export class AdminService {
     const newRoleObj = {newRole};
     header.append('Authorization', 'Bearer ' + token);
     header.append('Content-Type', 'application/json');
-    return this.http.put(config.url1 + 'admin/user/role/update/' + email, newRoleObj, {headers: header})
+    return this.http.put(config.config.url1 + 'admin/user/role/update/' + email, newRoleObj, {headers: header})
     .pipe(map(res => {
       return res.json();
     })

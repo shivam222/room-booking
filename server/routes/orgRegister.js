@@ -100,8 +100,8 @@ router.post('/new', (req, res) => {
                                         }
                                         else{
                                             //logic create link and send the email
-                                            console.log('aaaaaaaaaaa'+config.url1);
-                                            const verificationUrl= config.url1 + `org-register/verify/${newUser._id}`;
+                                            console.log('aaaaaaaaaaa'+config.config.url1);
+                                            const verificationUrl= config.config.url1 + `org-register/verify/${newUser._id}`;
                                             const transporter = nodemailer.createTransport({
                                                 host: 'smtp.gmail.com',
                                                 port: '587',

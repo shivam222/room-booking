@@ -90,7 +90,7 @@ router.post('/reset', (req, res) => {
                     if(err){
                         res.status(500).json({msg: 'Unable to save data'});
                     } else {
-                        const verificationUrl= config.url1 + `forgot-password/verify/${newData._id}`;
+                        const verificationUrl= config.config.url1+ `forgot-password/verify/${newData._id}`;
                         const transporter = nodemailer.createTransport({
                             host: 'smtp.gmail.com',
                             port: '587',

@@ -49,7 +49,7 @@ function sendMail(transporter, mailOptions, lmt, callback){
 }
 
 function mailFunc(adminMail, userMail, userId){
-    const verificationUrl= config.url1 + `sign-up/verify/${userId}`;
+    const verificationUrl= config.config.url1 + `sign-up/verify/${userId}`;
     const transporter = nodemailer.createTransport({
         host: 'smtp.gmail.com',
         port: '587',
