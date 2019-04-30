@@ -10,7 +10,7 @@ router.get('/users/:org', (req, res) => {
     const token = req.headers.authorization.split(' ');
     let decoded;
     try {
-        decoded = jsonwebtoken.verify(token[1], config.config.sender_email_pass);
+        decoded = jsonwebtoken.verify(token[1], process.env.secret_token);
     } catch (e) {
         res.status(400).json({msg: 'unauthorized'});
     }
@@ -40,7 +40,7 @@ router.delete('/user/delete/:email', (req,res) => {
     const token = req.headers.authorization.split(' ');
     let decoded;
     try {
-        decoded = jsonwebtoken.verify(token[1], config.config.sender_email_pass);
+        decoded = jsonwebtoken.verify(token[1], process.env.secret_token);
     } catch (e) {
         res.status(400).json({msg: 'unauthorized'});
     }
@@ -77,7 +77,7 @@ router.put('/user/role/update/:email', (req, res) => {
     const token =  req.headers.authorization.split(' ');
     let decoded;
     try {
-         decoded = jsonwebtoken.verify(token[1], config.config.sender_email_pass);
+         decoded = jsonwebtoken.verify(token[1], process.env.secret_token);
     } catch (e) {
          res.status(400).json({msg: 'unauthorized'});
     }

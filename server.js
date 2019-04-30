@@ -21,7 +21,7 @@ app.use(bodyParser.json());
 
 app.use(express.static(path.join(__dirname,'dist/roomBooking')));
 
-mongoose.connect(config.config.mongo_connection_string);
+mongoose.connect(config.config.mongo_connection_string1+process.env.code_atlas_user+config.config.mongo_connection_string2);
 app.use('/org-register',orgRegister);
 app.use('/sign-up',userRegister);
 app.use('/org',org);

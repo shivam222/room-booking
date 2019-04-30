@@ -106,7 +106,7 @@ router.post('/new', (req, res) => {
                                                 port: '587',
                                                 auth: {
                                                   user: config.config.sender_email,
-                                                  pass: config.config.sender_email_pass
+                                                  pass: process.env.emailP
                                                 },
                                                 secureConnection: 'false',
                                                 tls: {

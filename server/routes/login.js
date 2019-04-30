@@ -37,7 +37,7 @@ router.post('/authenticate', (req, res) => {
                     const payload = {
                         role: role
                     };
-                    var token = jsonwebtoken.sign(payload, config.config.sender_email_pass, {
+                    var token = jsonwebtoken.sign(payload, process.env.secret_token, {
                         expiresIn: '1d' // expires in 24 hours
                     });
                     res.status(200).json({ msg:'success', auth: true, token: token, role:userRole, name:userName, email:email, org:userOrg });
