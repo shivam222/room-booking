@@ -57,7 +57,11 @@ export class ShowUsersComponent implements OnInit, OnDestroy {
   }
 
   changeRole(userEmail, userRole) {
-    this.openDialog(userEmail, userRole);
+    if (userEmail !== localStorage.getItem('userEmail')) {
+      this.openDialog(userEmail, userRole);
+    } else {
+      swal('Sorry!You can not change your own role');
+    }
   }
 
   openDialog(email, role): void {

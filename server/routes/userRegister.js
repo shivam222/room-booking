@@ -54,8 +54,8 @@ function mailFunc(adminMail, userMail, userId){
         host: 'smtp.gmail.com',
         port: '587',
         auth: {
-            user: 'shivamez234@gmail.com',
-            pass: 'biostar1234'
+            user: config.config.sender_email,
+            pass: config.config.sender_email_pass
         },
         secureConnection: 'false',
         tls: {
@@ -63,7 +63,7 @@ function mailFunc(adminMail, userMail, userId){
         }
         });
         const mailOptions = {
-        from: 'shivamez234@gmail.com',
+        from: config.config.sender_email,
         to: adminMail,
         subject: 'Verify User in your room booking system',
         text: `user ${userMail} wants to join. verify by clicking- ${verificationUrl}`
@@ -225,8 +225,8 @@ router.get('/verify/:randNum', (req, res) => {
                                                     host: 'smtp.gmail.com',
                                                     port: '587',
                                                     auth: {
-                                                        user: 'shivamez234@gmail.com',
-                                                        pass: 'biostar1234'
+                                                        user: config.config.sender_email,
+                                                        pass: config.config.sender_email_pass
                                                     },
                                                     secureConnection: 'false',
                                                     tls: {
@@ -234,7 +234,7 @@ router.get('/verify/:randNum', (req, res) => {
                                                     }
                                                     });
                                                     const mailOptions = {
-                                                    from: 'shivamez234@gmail.com',
+                                                    from: config.config.sender_email,
                                                     to: userEmail,
                                                     subject: 'Regsitered with us successfully',
                                                     text: `Hi you are now a part of ${userOrg} booking system`

@@ -1,6 +1,7 @@
 const express = require('express');
 const jsonwebtoken = require('jsonwebtoken');
 const User = require('../../models/userStructure');
+const config = require('../../config/default');
 
 const router = express.Router()
 
@@ -9,7 +10,7 @@ router.get('/users/:org', (req, res) => {
     const token = req.headers.authorization.split(' ');
     let decoded;
     try {
-        decoded = jsonwebtoken.verify(token[1], 'make me secret');//FIXME:
+        decoded = jsonwebtoken.verify(token[1], config.config.sender_email_pass);
     } catch (e) {
         res.status(400).json({msg: 'unauthorized'});
     }
@@ -39,7 +40,7 @@ router.delete('/user/delete/:email', (req,res) => {
     const token = req.headers.authorization.split(' ');
     let decoded;
     try {
-        decoded = jsonwebtoken.verify(token[1], 'make me secret');//FIXME:
+        decoded = jsonwebtoken.verify(token[1], config.config.sender_email_pass);
     } catch (e) {
         res.status(400).json({msg: 'unauthorized'});
     }
@@ -76,7 +77,7 @@ router.put('/user/role/update/:email', (req, res) => {
     const token =  req.headers.authorization.split(' ');
     let decoded;
     try {
-         decoded = jsonwebtoken.verify(token[1], 'make me secret');//FIXME:
+         decoded = jsonwebtoken.verify(token[1], config.config.sender_email_pass);
     } catch (e) {
          res.status(400).json({msg: 'unauthorized'});
     }

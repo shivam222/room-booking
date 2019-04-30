@@ -4,7 +4,6 @@ const User = require('../../models/userStructure');
 const router = express.Router();
 
 router.get('/exist/:email', (req, res) => {
-    console.log('ddddddddddddddddddddddddd');
   const email= req.params.email.toLowerCase().trim();
   User.find({
     'email': email   //check if this email already exists

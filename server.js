@@ -4,6 +4,7 @@ const mongoose= require('mongoose');
 const app= express();
 const path= require('path');
 const cors= require('cors');
+const config = require('./config/default');
 
 const orgRegister= require('./server/routes/orgRegister');
 const userRegister= require('./server/routes/userRegister');
@@ -20,12 +21,7 @@ app.use(bodyParser.json());
 
 app.use(express.static(path.join(__dirname,'dist/roomBooking')));
 
-//mongoose.connect('mongodb://localhost:27017/roomBooking');
-//FIXME: pass major
-console.log('|||||||||||||||||||||||||||||||||');
-//mongoose.connect('mongodb+srv://shivamb61:fasterthen@booking-0xv7w.mongodb.net'/{dbName: 'roomBooking'});
-// mongoose.connect('mongodb+srv://shivamb61:fasterthen@booking-0xv7w.mongodb.net/roomBooking?retryWrites=true');
-mongoose.connect('mongodb+srv://shivamb61:fasterthen@booking-0xv7w.mongodb.net/roomBooking');
+mongoose.connect(config.config.mongo_connection_string);
 app.use('/org-register',orgRegister);
 app.use('/sign-up',userRegister);
 app.use('/org',org);
@@ -42,7 +38,7 @@ app.get('*',(req,res)=>{
 
 let port = process.env.PORT;
 if (port == null || port == "") {
-  port = 80;
+  port = 4600;
 }
 
 app.listen(port,function(req,res){

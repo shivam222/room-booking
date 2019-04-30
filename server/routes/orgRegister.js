@@ -105,8 +105,8 @@ router.post('/new', (req, res) => {
                                                 host: 'smtp.gmail.com',
                                                 port: '587',
                                                 auth: {
-                                                  user: 'shivamez234@gmail.com',//FIXME:
-                                                  pass: 'biostar1234'
+                                                  user: config.config.sender_email,
+                                                  pass: config.config.sender_email_pass
                                                 },
                                                 secureConnection: 'false',
                                                 tls: {
@@ -114,7 +114,7 @@ router.post('/new', (req, res) => {
                                                 }
                                               });
                                               const mailOptions = {
-                                                from: 'shivamez234@gmail.com',
+                                                from: config.config.sender_email,
                                                 to: newUser.email,
                                                 subject: 'Verify Account For Room Booking System',
                                                 text: `click on link- ${verificationUrl}`

@@ -3,6 +3,7 @@ const jsonwebtoken = require('jsonwebtoken');
 const Org = require('../../models/orgStructure');
 const Room = require('../../models/roomStructure');
 const bookingCheck = require('../lib/bookingCheck');
+const config = require('../../config/default');
 
 const router = express.Router();
 
@@ -10,7 +11,7 @@ router.post('/new', (req, res) => {
     const token =  req.headers.authorization.split(' ');
     let decoded;
     try {
-         decoded = jsonwebtoken.verify(token[1], 'make me secret');//FIXME:
+         decoded = jsonwebtoken.verify(token[1], config.config.sender_email_pass);
     } catch (e) {
          res.status(400).json({msg: 'unauthorized'});
     }
@@ -63,7 +64,7 @@ router.put('/booking/:id', (req, res) => {
     const token =  req.headers.authorization.split(' ');
     let decoded, validated = true;
     try {
-         decoded = jsonwebtoken.verify(token[1], 'make me secret');//FIXME:
+         decoded = jsonwebtoken.verify(token[1], config.config.sender_email_pass);
     } catch (e) {
          res.status(400).json({msg: 'unauthorized'});
     }
@@ -121,7 +122,7 @@ router.get('/all/:org', (req, res) => {
     const token =  req.headers.authorization.split(' ');
     let decoded;
     try {
-        decoded = jsonwebtoken.verify(token[1], 'make me secret');//FIXME:
+        decoded = jsonwebtoken.verify(token[1], config.config.sender_email_pass);
     } catch (e) {
          res.status(400).json({msg: 'unauthorized'});
     }
@@ -165,7 +166,7 @@ const date = req.params.date;
 const token = req.headers.authorization.split(' ');
 let decoded;
 try {
-    decoded = jsonwebtoken.verify(token[1], 'make me secret');//FIXME:
+    decoded = jsonwebtoken.verify(token[1], config.config.sender_email_pass);
 } catch (e) {
      res.status(400).json({msg: 'unauthorized'});
 }
@@ -219,7 +220,7 @@ router.delete('/delete/:roomId', (req, res) => {
     const token = req.headers.authorization.split(' ');
     let decoded;
     try {
-        decoded = jsonwebtoken.verify(token[1], 'make me secret');//FIXME:
+        decoded = jsonwebtoken.verify(token[1], config.config.sender_email_pass);
     } catch (e) {
          res.status(400).json({msg: 'unauthorized'});
     }

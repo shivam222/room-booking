@@ -95,8 +95,8 @@ router.post('/reset', (req, res) => {
                             host: 'smtp.gmail.com',
                             port: '587',
                             auth: {
-                              user: 'shivamez234@gmail.com',
-                              pass: 'biostar1234'
+                              user: config.config.sender_email,
+                              pass: config.config.sender_email_pass
                             },
                             secureConnection: 'false',
                             tls: {
@@ -104,7 +104,7 @@ router.post('/reset', (req, res) => {
                             }
                           });
                           const mailOptions = {
-                            from: 'shivamez234@gmail.com',
+                            from: config.config.sender_email,
                             to: email,
                             subject: 'Request for password change',
                             text: `If it was you- ${verificationUrl}`
@@ -179,7 +179,7 @@ router.put('/change/:email', (req, res) => {
     const token =  req.headers.authorization.split(' ');
     let decoded;
     try {
-         decoded = jsonwebtoken.verify(token[1], 'make me secret');//FIXME:
+         decoded = jsonwebtoken.verify(token[1], config.config.sender_email_pass);
     } catch (e) {
          res.status(400).json({msg: 'unauthorized'});
     }

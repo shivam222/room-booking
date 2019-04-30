@@ -2,6 +2,7 @@ const express = require('express');
 const crypto = require('crypto');
 const User = require('../../models/userStructure');
 const jsonwebtoken = require('jsonwebtoken');
+const config = require('../../config/default');
 
 const router = express.Router();
 
@@ -36,7 +37,7 @@ router.post('/authenticate', (req, res) => {
                     const payload = {
                         role: role
                     };
-                    var token = jsonwebtoken.sign(payload, 'make me secret', {//FIXME: change the secret key
+                    var token = jsonwebtoken.sign(payload, config.config.sender_email_pass, {
                         expiresIn: '1d' // expires in 24 hours
                     });
                     res.status(200).json({ msg:'success', auth: true, token: token, role:userRole, name:userName, email:email, org:userOrg });
