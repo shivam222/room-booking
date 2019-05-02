@@ -17,7 +17,7 @@
                 {{ roomItem.name }}
             </label>
             </div>
-            <div class="deleteLink" fxLayout="column" fxFlex="20%" *ngIf="basicApi.getUserRole !== 'looker'">
+            <div class="deleteLink" fxLayout="column" fxFlex="20%" *ngIf="basicApi.getUserRole() !== 'looker'">
                     <button mat-stroked-button [mat-dialog-close]="'delete'+roomItem.id" color="primary"><mat-icon>delete</mat-icon></button>
             </div>
          </div>
@@ -30,7 +30,7 @@
     <br>
 </mat-dialog-content>
 <mat-dialog-actions>
-<div *ngIf="basicApi.getUserRole !== 'looker'">
+<div *ngIf="basicApi.getUserRole() !== 'looker'">
     <button  mat-mini-fab color="primary" (click)="openDialog()">
         +
     </button>

@@ -8,7 +8,7 @@ import { BasicApisService } from '../services/basic-apis.service';
 })
 export class HeaderComponent implements OnInit {
   isLogged: boolean;
-  constructor( public basicApi: BasicApisService) { }
+  constructor( private basicApi: BasicApisService) { }
 
   ngOnInit() {
     this.isLogged = this.basicApi.isLoggedIn();

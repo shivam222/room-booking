@@ -16,7 +16,7 @@ export class RoomsDialogComponent implements OnInit {
   showLoader: boolean;
   allRooms: AllRoomRes[];
   selectedRoom: string;
-  constructor(public dialogRef: MatDialogRef<RoomsDialogComponent>, private dialog: MatDialog, public basicApi: BasicApisService) { }
+  constructor(public dialogRef: MatDialogRef<RoomsDialogComponent>, private dialog: MatDialog, private basicApi: BasicApisService) { }
 
   ngOnInit() {
     if (localStorage.getItem('currentRoom')) {

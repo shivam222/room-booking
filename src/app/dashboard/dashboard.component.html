@@ -41,7 +41,7 @@
    <br>
 </mat-card>
 <br>
-<mat-card  fxFlex="100%" fxLayout="column" *ngIf="basicApi.getUserRole !== 'looker'">
+<mat-card  fxFlex="100%" fxLayout="column" *ngIf="basicApi.getUserRole() !== 'looker'">
   New Booking -
   <br>
   <br>
@@ -90,7 +90,7 @@
   <div fxFlex="10%" fxLayout="column" (click)=deleteBooking(booking) class="deleteLink"><mat-icon>delete</mat-icon></div>
   </div>
  <br>
- <div *ngIf="basicApi.getUserRole !== 'looker'">
+ <div *ngIf="basicApi.getUserRole() !== 'looker'">
   New Booking -
   <form #f="ngForm" (ngSubmit)="newBooking(f.value)">
     <div class="form-group">
