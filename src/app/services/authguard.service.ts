@@ -8,7 +8,7 @@ import { Observable } from 'rxjs';
 })
 export class AuthguardService implements CanActivate {
 
-  constructor(private basicApi: BasicApisService, private router: Router) { }
+  constructor(public basicApi: BasicApisService, private router: Router) { }
 
   canActivate(next: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<boolean> | Promise<boolean> | boolean {
     if (!this.basicApi.isLoggedIn()) {

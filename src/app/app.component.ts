@@ -10,7 +10,7 @@ import { BasicApisService } from './services/basic-apis.service';
 export class AppComponent implements OnInit {
   title = 'app';
   private subscription1: Subscription;
-  constructor(private basicApi: BasicApisService) { }
+  constructor(public basicApi: BasicApisService) { }
   ngOnInit() {
     if (localStorage.getItem('token')) {
       this.subscription1 = this.basicApi.isTokenValid(localStorage.getItem('token'))

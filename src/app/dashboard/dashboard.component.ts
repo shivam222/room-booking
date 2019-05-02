@@ -24,7 +24,7 @@ export class DashboardComponent implements OnInit, OnDestroy  {
   selectedRoomName: string;
   selectedRoomDateBooking: any; // FIXME: strict type check
   noRoom: boolean;
-  constructor(private dialog: MatDialog, private basicApi: BasicApisService) { }
+  constructor(private dialog: MatDialog, public basicApi: BasicApisService) { }
   private subscription1: Subscription;
   private subscription2: Subscription;
   private subscription3: Subscription;

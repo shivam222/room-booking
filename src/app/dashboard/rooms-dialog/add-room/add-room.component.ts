@@ -13,7 +13,7 @@ export class AddRoomComponent implements OnInit {
   resMessage: string;
   resStatus: number;
   showLoader: boolean;
-  constructor(public dialogRef: MatDialogRef<AddRoomComponent>, private basicApi: BasicApisService) { }
+  constructor(public dialogRef: MatDialogRef<AddRoomComponent>, public basicApi: BasicApisService) { }
 
   ngOnInit() {
   }
